@@ -3253,10 +3253,10 @@
                     // Update button to ready state
                     if (submitButton) {
                         if (appointmentTracker.useDatabase) {
-                            submitButton.innerHTML = '<i class="fas fa-cloud"></i> Schedule Appointment (Cloud)';
+                            submitButton.innerHTML = '<i class="fas fa-cloud"></i> Schedule Appointment';
                             submitButton.style.background = '#10b981'; // Green for cloud
                         } else {
-                            submitButton.innerHTML = '<i class="fas fa-calendar-check"></i> Schedule Appointment (Local)';
+                            submitButton.innerHTML = '<i class="fas fa-calendar-check"></i> Schedule Appointment';
                             submitButton.style.background = '#f59e0b'; // Orange for local
                         }
                         submitButton.disabled = false;
