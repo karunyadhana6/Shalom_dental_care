@@ -1,0 +1,3455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shalom Dental Care - Premier Dental Practice in Chennai</title>
+    <meta name="description" content="Shalom Dental Care offers comprehensive dental services in Chennai including general dentistry, cosmetic procedures, and emergency care. Book your appointment today!">
+    <meta name="keywords" content="dental care, dentist Chennai, general dentistry, cosmetic dentistry, emergency dental care, teeth cleaning, dental implants">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Supabase CDN - loaded here, but config loaded after AppointmentTracker class -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        :root {
+            /* Clean & Professional Color Palette - Soft Blue, White, Light Grey, Navy Accents */
+            --primary-blue: #6b9dc2;           /* Soft blue */
+            --primary-blue-light: #e8f4fc;     /* Very light blue */
+            --primary-blue-dark: #5a8ab0;      /* Darker soft blue */
+            --navy: #1e3a5f;                   /* Navy for buttons/headers */
+            --navy-dark: #152c4a;              /* Darker navy */
+            --navy-light: #2d4a6f;             /* Lighter navy */
+            --secondary-teal: #7eb8c9;         /* Soft teal accent */
+            --secondary-teal-light: #e5f3f7;   /* Light teal */
+            --accent-green: #5a9e7c;           /* Muted green for success */
+            --accent-green-light: #e8f5ee;     /* Light green */
+            
+            /* White & Grey Tones */
+            --white: #ffffff;
+            --off-white: #fafbfc;              /* Slightly off-white */
+            --light-grey: #f5f7f9;             /* Light grey background */
+            --grey-100: #eef1f4;               /* Very light grey */
+            --grey-200: #e2e7ec;               /* Light grey border */
+            --grey-300: #d1d8e0;               /* Medium light grey */
+            --medium-gray: #6b7c8a;            /* Medium grey for secondary text */
+            --dark-gray: #3d4f5f;              /* Dark grey for main text */
+            --text-dark: #2c3e50;              /* Darkest text */
+            
+            --soft-gray: #f8f9fa;
+            --light-blue: #edf4f8;
+            --warm-white: #ffffff;
+            
+            /* Typography */
+            --font-primary: 'Inter', sans-serif;
+            --font-heading: 'Playfair Display', serif;
+            
+            /* Spacing */
+            --section-padding: 5rem 0;
+            --container-max-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: var(--white);
+        }
+
+        .container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(30, 58, 95, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .logo-tagline {
+            font-family: var(--font-primary);
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--medium-gray);
+            font-style: italic;
+            letter-spacing: 0.3px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--navy);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--navy);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--navy), var(--navy-dark));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.25);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30, 58, 95, 0.35);
+            background: linear-gradient(135deg, var(--navy-light), var(--navy));
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 9rem 0 6rem;
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-grey) 40%, var(--primary-blue-light) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(107, 157, 194, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(126, 184, 201, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text {
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent-green-light);
+            color: var(--accent-green);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-badge i {
+            font-size: 0.75rem;
+        }
+
+        .hero-text h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            line-height: 1.15;
+            color: var(--navy);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .hero-text h1 span {
+            color: var(--primary-blue);
+        }
+
+        .hero-text p {
+            font-size: 1.15rem;
+            color: var(--medium-gray);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            max-width: 520px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-trust {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--grey-200);
+        }
+
+        .hero-trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+        }
+
+        .hero-trust-item i {
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 25px 70px rgba(30, 58, 95, 0.18);
+            object-fit: cover;
+        }
+
+        .hero-image-badge {
+            position: absolute;
+            bottom: -15px;
+            left: -15px;
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1rem 1.25rem;
+            box-shadow: 0 10px 35px rgba(30, 58, 95, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 2;
+        }
+
+        .hero-image-badge .badge-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-green-light), var(--accent-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .hero-image-badge .badge-text strong {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--navy);
+        }
+
+        .hero-image-badge .badge-text span {
+            font-size: 0.8rem;
+            color: var(--medium-gray);
+        }
+
+        .hero-image-badge-top {
+            position: absolute;
+            top: 15px;
+            right: -10px;
+            background: var(--white);
+            border-radius: 14px;
+            padding: 0.75rem 1rem;
+            box-shadow: 0 8px 25px rgba(30, 58, 95, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 2;
+        }
+
+        .hero-image-badge-top .stars {
+            color: #f0b429;
+            font-size: 0.85rem;
+        }
+
+        .hero-image-badge-top span {
+            font-weight: 600;
+            color: var(--navy);
+            font-size: 0.9rem;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: var(--section-padding);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--navy);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Services Section */
+        .services {
+            background: var(--light-grey);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(30, 58, 95, 0.06);
+            transition: all 0.3s ease;
+            border: 1px solid var(--grey-200);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(30, 58, 95, 0.12);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-blue-light), var(--secondary-teal-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .service-icon i {
+            font-size: 2rem;
+            color: var(--primary-blue);
+        }
+
+        .service-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--navy);
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: var(--medium-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .service-features li {
+            padding: 0.5rem 0;
+            color: var(--medium-gray);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--white);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--navy);
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--primary-blue-light);
+            border-radius: 10px;
+            border: 1px solid var(--grey-200);
+        }
+
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(30, 58, 95, 0.06);
+            transition: all 0.3s ease;
+            border: 1px solid var(--grey-200);
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(30, 58, 95, 0.12);
+        }
+
+        .team-avatar {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, var(--navy), var(--primary-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+            border: 4px solid var(--grey-200);
+            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.12);
+        }
+
+        .team-avatar i {
+            font-size: 3rem;
+            color: white;
+        }
+
+        .team-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-avatar img.zoom-in {
+            transform: scale(1.3);
+            object-position: center top;
+        }
+
+        .team-member h3 {
+            font-family: var(--font-heading);
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-role {
+            color: var(--primary-blue);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .team-credentials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .credential-badge {
+            background: var(--accent-green-light);
+            color: var(--accent-green);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background: var(--light-grey);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(30, 58, 95, 0.06);
+            position: relative;
+            border: 1px solid var(--grey-200);
+        }
+
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: 1rem;
+            left: 2rem;
+            font-size: 4rem;
+            color: var(--primary-blue-light);
+            font-family: var(--font-heading);
+            line-height: 1;
+        }
+
+        .testimonial-content {
+            margin-bottom: 2rem;
+            font-style: italic;
+            color: var(--medium-gray);
+            line-height: 1.7;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-blue-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+            font-weight: bold;
+        }
+
+        .author-info h4 {
+            color: var(--navy);
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info p {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+        }
+
+        .rating {
+            display: flex;
+            gap: 0.25rem;
+            margin-top: 0.5rem;
+        }
+
+        .rating i {
+            color: #fbbf24;
+        }
+
+        /* Emergency Section */
+        .emergency {
+            background: linear-gradient(135deg, var(--navy), var(--navy-dark));
+            color: white;
+            text-align: center;
+        }
+
+        .emergency h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .emergency p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .emergency-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .emergency-feature {
+            text-align: center;
+        }
+
+        .emergency-feature i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-teal-light);
+        }
+
+        .emergency-feature h3 {
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .emergency-feature p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .emergency .cta-button {
+            background: white;
+            color: var(--navy);
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+        }
+
+        .emergency .cta-button:hover {
+            background: var(--primary-blue-light);
+        }
+
+        /* Contact/Appointment Section */
+        .appointment {
+            background: var(--white);
+        }
+
+        .appointment-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info {
+            background: var(--primary-blue-light);
+            padding: 3rem;
+            border-radius: 15px;
+            border: 1px solid var(--grey-200);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--navy);
+            width: 30px;
+        }
+
+        .contact-item div h4 {
+            color: var(--navy);
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-item div p {
+            color: var(--medium-gray);
+        }
+
+        .appointment-form {
+            background: var(--light-grey);
+            padding: 3rem;
+            border-radius: 15px;
+            border: 1px solid var(--grey-200);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--navy);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--grey-200);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--navy);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--navy-dark);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-family: var(--font-heading);
+        }
+
+        .footer-section p,
+        .footer-section li {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            padding: 0.25rem 0;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary-teal);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content,
+            .about-content,
+            .appointment-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero {
+                padding: 7rem 0 4rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.1rem;
+            }
+
+            .hero-trust {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .hero-image-badge {
+                bottom: -10px;
+                left: 10px;
+                padding: 0.75rem 1rem;
+            }
+
+            .hero-image-badge-top {
+                right: 10px;
+                top: 10px;
+            }
+
+            .services-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Mobile Menu (if needed) */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark-gray);
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="shalom_dental_logo.png" alt="Shalom Dental Care Logo" class="logo-icon">
+                    <div class="logo-text">
+                        Shalom Dental Care
+                        <span class="logo-tagline">"I will restore you to health and heal your wounds"</span>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#team">Our Team</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <a href="#appointment" class="cta-button">Book Appointment</a>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text fade-in">
+                    <div class="hero-badge">
+                        <i class="fas fa-check-circle"></i>
+                        Trusted by 5,000+ Patients in Chennai
+                    </div>
+                    <h1>Your Smile Deserves <span>World-Class</span> Dental Care</h1>
+                    <p>Experience comprehensive dental care with our experienced team of professionals. From routine cleanings to advanced cosmetic procedures, we're committed to helping you achieve optimal oral health and a confident smile.</p>
+                    <div class="hero-buttons">
+                        <a href="#appointment" class="cta-button">Schedule Appointment</a>
+                        <a href="#emergency" class="cta-button" style="background: transparent; color: var(--primary-blue); border: 2px solid var(--primary-blue);">Emergency Care</a>
+                    </div>
+                    <div class="hero-trust">
+                        <div class="hero-trust-item">
+                            <i class="fas fa-shield-alt"></i>
+                            Insurance Accepted
+                        </div>
+                        <div class="hero-trust-item">
+                            <i class="fas fa-clock"></i>
+                            Same-Day Appointments
+                        </div>
+                        <div class="hero-trust-item">
+                            <i class="fas fa-award"></i>
+                            Certified Experts
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image fade-in">
+                    <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=800&q=85" alt="Professional dentist providing expert care to a patient in a modern dental clinic">
+                    <div class="hero-image-badge">
+                        <div class="badge-icon">
+                            <i class="fas fa-smile-beam"></i>
+                        </div>
+                        <div class="badge-text">
+                            <strong>5,000+</strong>
+                            <span>Happy Patients</span>
+                        </div>
+                    </div>
+                    <div class="hero-image-badge-top">
+                        <div class="stars">★★★★★</div>
+                        <span>4.9 Rating</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section services">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Comprehensive Dental Services</h2>
+                <p>We offer a full range of dental services to meet all your oral health needs, from preventive care to advanced treatments, all in our state-of-the-art facility.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-tooth"></i>
+                    </div>
+                    <h3>General Dentistry</h3>
+                    <p>Complete oral health care including routine checkups, cleanings, fillings, and preventive treatments to maintain your dental health.</p>
+                    <ul class="service-features">
+                        <li>Regular dental checkups and cleanings</li>
+                        <li>Cavity detection and fillings</li>
+                        <li>Root canal therapy</li>
+                        <li>Periodontal (gum) treatment</li>
+                        <li>Oral cancer screenings</li>
+                    </ul>
+                    <a href="#appointment" class="cta-button">Learn More</a>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Cosmetic Procedures</h3>
+                    <p>Transform your smile with our advanced cosmetic treatments designed to enhance the appearance and confidence of your smile.</p>
+                    <ul class="service-features">
+                        <li>Teeth whitening and bleaching</li>
+                        <li>Porcelain veneers</li>
+                        <li>Dental bonding</li>
+                        <li>Smile makeovers</li>
+                        <li>Gum contouring</li>
+                    </ul>
+                    <a href="#appointment" class="cta-button">Learn More</a>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-ambulance"></i>
+                    </div>
+                    <h3>Emergency Care</h3>
+                    <p>Immediate dental care when you need it most. Our emergency services are available to address urgent dental problems promptly.</p>
+                    <ul class="service-features">
+                        <li>24/7 emergency hotline</li>
+                        <li>Severe toothache relief</li>
+                        <li>Broken tooth repair</li>
+                        <li>Lost filling/crown replacement</li>
+                        <li>Dental trauma treatment</li>
+                    </ul>
+                    <a href="tel:+918610776477" class="cta-button" style="background: var(--accent-green);">Call Now</a>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3>Restorative Dentistry</h3>
+                    <p>Restore function and appearance to damaged or missing teeth with our comprehensive restorative dental solutions.</p>
+                    <ul class="service-features">
+                        <li>Dental crowns and bridges</li>
+                        <li>Dental implants</li>
+                        <li>Dentures (partial and complete)</li>
+                        <li>Inlays and onlays</li>
+                        <li>TMJ disorder treatment</li>
+                    </ul>
+                    <a href="#appointment" class="cta-button">Learn More</a>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3>Pediatric Dentistry</h3>
+                    <p>Specialized dental care for children and adolescents, creating positive dental experiences from an early age.</p>
+                    <ul class="service-features">
+                        <li>Child-friendly environment</li>
+                        <li>Preventive care and cleanings</li>
+                        <li>Fluoride treatments</li>
+                        <li>Dental sealants</li>
+                        <li>Early orthodontic evaluation</li>
+                    </ul>
+                    <a href="#appointment" class="cta-button">Learn More</a>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-align-center"></i>
+                    </div>
+                    <h3>Orthodontics</h3>
+                    <p>Straighten your teeth and improve your bite with our modern orthodontic treatments for all ages.</p>
+                    <ul class="service-features">
+                        <li>Invisalign clear aligners</li>
+                        <li>Traditional metal braces</li>
+                        <li>Ceramic braces</li>
+                        <li>Retainers and maintenance</li>
+                        <li>Adult orthodontic care</li>
+                    </ul>
+                    <a href="#appointment" class="cta-button">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text fade-in">
+                    <h2>Excellence in Dental Care Since 2015</h2>
+                    <p>At Shalom Dental Care, we're committed to providing exceptional dental services in a comfortable, modern environment. Our team combines years of experience with the latest dental technologies to deliver personalized care that meets your unique needs.</p>
+                    
+                    <p>We believe that everyone deserves a healthy, beautiful smile. That's why we offer comprehensive dental services, from routine cleanings to advanced cosmetic procedures, all designed to help you achieve and maintain optimal oral health.</p>
+                    
+                    <div class="about-stats">
+                        <div class="stat">
+                            <span class="stat-number">5000+</span>
+                            <span class="stat-label">Happy Patients</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">10+</span>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">15+</span>
+                            <span class="stat-label">Services Offered</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">4.9★</span>
+                            <span class="stat-label">Patient Rating</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image fade-in">
+                    <img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?auto=format&fit=crop&w=800&q=85" alt="State-of-the-art dental clinic with modern equipment">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="section services">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Meet Our Expert Dental Team</h2>
+                <p>Our experienced professionals are dedicated to providing you with the highest quality dental care in a comfortable and welcoming environment.</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-member fade-in">
+                    <div class="team-avatar">
+                        <img src="Melba1.jpeg" alt="Dr. Melba Grace P., BDS - Chief Dental Surgeon at Shalom Dental Care" class="zoom-in">
+                    </div>
+                    <h3>Dr. Melba Grace P. BDS</h3>
+                    <p class="team-role">Chief Dental Surgeon</p>
+                    <p>Practiced in CMC Vellore with extensive experience in comprehensive dental care, patient comfort, and advanced dental technology.</p>
+                    <div class="team-credentials">
+                        <span class="credential-badge">BDS (CMC Vellore)</span>
+                        <span class="credential-badge">Chief Surgeon</span>
+                        <span class="credential-badge">Family Dentistry</span>
+                        <span class="credential-badge">Smile Design</span>
+                    </div>
+                </div>
+                
+                <div class="team-member fade-in">
+                    <div class="team-avatar">
+                        <img src="Vidya.jpeg" alt="Dr. Vidyasree, MDS - Orthodontist and Cosmetic Specialist at Shalom Dental Care">
+                    </div>
+                    <h3>Dr. Vidyasree MDS</h3>
+                    <p class="team-role">Orthodontist</p>
+                    <p>Specialist in orthodontics and dentofacial orthopedics, providing advanced treatments like Aligners and personalized braces for perfect smiles.</p>
+                    <div class="team-credentials">
+                        <span class="credential-badge">MDS Orthodontics</span>
+                        <span class="credential-badge">Aligner Specialist</span>
+                        <span class="credential-badge">Bite Correction</span>
+                        <span class="credential-badge">Braces Expert</span>
+                    </div>
+                </div>
+                
+                <div class="team-member fade-in">
+                    <div class="team-avatar">
+                        <img src="Gowtham.jpeg" alt="Dr. Gowtham, MDS - Endodontist and Conservative Dentist at Shalom Dental Care">
+                    </div>
+                    <h3>Dr. Gowtham MDS</h3>
+                    <p class="team-role">Endodontist & Conservative Dentist</p>
+                    <p>Expert in single-visit root canals, restorative dentistry, and minimally invasive treatments. Has successfully treated over 2,000 patients.</p>
+                    <div class="team-credentials">
+                        <span class="credential-badge">MDS Endodontics</span>
+                        <span class="credential-badge">Root Canal Expert</span>
+                        <span class="credential-badge">Restorations</span>
+                        <span class="credential-badge">Microdentistry</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section testimonials">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>What Our Patients Say</h2>
+                <p>Don't just take our word for it - hear from our satisfied patients about their experience with our dental care.</p>
+            </div>
+            <div class="testimonials-grid" id="testimonialsGrid">
+                <!-- Testimonials will be loaded dynamically from admin feedback -->
+                <!-- Default testimonials shown if no feedback available -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency Care Section -->
+    <section id="emergency" class="section emergency">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>24/7 Emergency Dental Care</h2>
+                <p>Dental emergencies don't wait for business hours. We're here when you need us most with immediate care and pain relief.</p>
+            </div>
+            <div class="emergency-features">
+                <div class="emergency-feature fade-in">
+                    <i class="fas fa-clock"></i>
+                    <h3>24/7 Availability</h3>
+                    <p>Round-the-clock emergency hotline for urgent dental needs</p>
+                </div>
+                <div class="emergency-feature fade-in">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Rapid Response</h3>
+                    <p>Quick appointment scheduling for emergency situations</p>
+                </div>
+                <div class="emergency-feature fade-in">
+                    <i class="fas fa-heart"></i>
+                    <h3>Pain Relief</h3>
+                    <p>Immediate treatment to alleviate severe dental pain</p>
+                </div>
+                <div class="emergency-feature fade-in">
+                    <i class="fas fa-tools"></i>
+                    <h3>Complete Care</h3>
+                    <p>Full range of emergency treatments and repairs</p>
+                </div>
+            </div>
+            <div class="fade-in">
+                <a href="https://wa.me/918610776477?text=Hi%2C%20I%20have%20a%20dental%20emergency%20and%20need%20immediate%20assistance." class="cta-button" target="_blank" rel="noopener">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Emergency: +91 86107 76477
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Appointment Section -->
+    <section id="appointment" class="section appointment">
+        <!-- Also serve as contact anchor -->
+        <div id="contact"></div>
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Schedule Your Appointment</h2>
+                <p>Ready to take the first step toward better oral health? Contact us today to schedule your appointment or consultation.</p>
+            </div>
+            <div class="appointment-content">
+                <div class="contact-info fade-in">
+                    <h3>Visit Our Clinic</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Location</h4>
+                            <p>76/2, Gandhi Road, Srinivasa Nagar<br>New Perungalathur, Chennai 600063</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+91 86107 76477</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>shalomdentalcare19@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Hours</h4>
+                            <p>Monday - Saturday: 9:00 AM - 8:00 PM<br>Sunday: 10:00 AM - 6:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="appointment-form fade-in">
+                    <h3>Book Your Appointment</h3>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="service">Service Needed</label>
+                                <select id="service" name="service" required>
+                                    <option value="">Select a service</option>
+                                    <option value="general">General Checkup</option>
+                                    <option value="cleaning">Teeth Cleaning</option>
+                                    <option value="cosmetic">Cosmetic Consultation</option>
+                                    <option value="emergency">Emergency Care</option>
+                                    <option value="orthodontics">Orthodontics</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Preferred Date</label>
+                                <input type="date" id="date" name="date" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Additional Notes</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Any specific concerns or questions?"></textarea>
+                        </div>
+                        <button type="submit" class="cta-button" style="width: 100%;" id="appointment-submit-btn">
+                            <i class="fas fa-spinner fa-spin"></i> Loading System...
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Shalom Dental Care</h3>
+                    <p>Your trusted partner for comprehensive dental care in Chennai. We're committed to helping you achieve and maintain optimal oral health with personalized, gentle care.</p>
+                    <div style="margin-top: 1rem;">
+                        <i class="fas fa-star" style="color: #fbbf24;"></i>
+                        <i class="fas fa-star" style="color: #fbbf24;"></i>
+                        <i class="fas fa-star" style="color: #fbbf24;"></i>
+                        <i class="fas fa-star" style="color: #fbbf24;"></i>
+                        <i class="fas fa-star" style="color: #fbbf24;"></i>
+                        <span style="margin-left: 0.5rem;">4.9/5 from 500+ reviews</span>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#services">Our Services</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#team">Our Team</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#appointment">Book Appointment</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#services">General Dentistry</a></li>
+                        <li><a href="#services">Cosmetic Procedures</a></li>
+                        <li><a href="#emergency">Emergency Care</a></li>
+                        <li><a href="#services">Pediatric Dentistry</a></li>
+                        <li><a href="#services">Orthodontics</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 76/2, Gandhi Road, Srinivasa Nagar<br>New Perungalathur, Chennai 600063</p>
+                    <p><i class="fas fa-phone"></i> +91 86107 76477</p>
+                    <p><i class="fas fa-envelope"></i> shalomdentalcare19@gmail.com</p>
+                    <p><i class="fas fa-clock"></i> Mon-Sat: 9AM-8PM, Sun: 10AM-6PM</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Shalom Dental Care. All rights reserved. Providing quality dental care in Chennai.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 4px 20px rgba(30, 58, 95, 0.12)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 2px 20px rgba(30, 58, 95, 0.06)';
+            }
+        });
+
+        // Function to show appointment success modal with copyable ID
+        function showAppointmentSuccessModal(appointmentId, patientName) {
+            // Create modal overlay
+            const modalOverlay = document.createElement('div');
+            modalOverlay.id = 'appointmentSuccessModal';
+            modalOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.6);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10002;
+                animation: fadeIn 0.3s ease;
+            `;
+
+            modalOverlay.innerHTML = `
+                <style>
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    @keyframes slideUp {
+                        from { transform: translateY(20px); opacity: 0; }
+                        to { transform: translateY(0); opacity: 1; }
+                    }
+                    .success-modal {
+                        background: white;
+                        border-radius: 16px;
+                        padding: 2.5rem;
+                        max-width: 450px;
+                        width: 90%;
+                        text-align: center;
+                        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                        animation: slideUp 0.3s ease;
+                    }
+                    .success-icon {
+                        width: 80px;
+                        height: 80px;
+                        background: linear-gradient(135deg, #10b981, #059669);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin: 0 auto 1.5rem;
+                        font-size: 2.5rem;
+                        color: white;
+                    }
+                    .appointment-id-box {
+                        background: linear-gradient(135deg, #eff6ff, #dbeafe);
+                        border: 2px dashed #3b82f6;
+                        border-radius: 12px;
+                        padding: 1rem;
+                        margin: 1.5rem 0;
+                        position: relative;
+                    }
+                    .appointment-id-label {
+                        font-size: 0.85rem;
+                        color: #6b7280;
+                        margin-bottom: 0.5rem;
+                    }
+                    .appointment-id-value {
+                        font-family: 'Courier New', monospace;
+                        font-size: 1.1rem;
+                        font-weight: bold;
+                        color: #1e40af;
+                        letter-spacing: 1px;
+                        word-break: break-all;
+                        user-select: all;
+                    }
+                    .copy-btn {
+                        background: linear-gradient(135deg, #3b82f6, #2563eb);
+                        color: white;
+                        border: none;
+                        padding: 0.75rem 1.5rem;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-size: 0.95rem;
+                        font-weight: 600;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        transition: all 0.3s ease;
+                        margin-top: 0.75rem;
+                    }
+                    .copy-btn:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+                    }
+                    .copy-btn.copied {
+                        background: linear-gradient(135deg, #10b981, #059669);
+                    }
+                    .close-modal-btn {
+                        background: #f3f4f6;
+                        color: #374151;
+                        border: none;
+                        padding: 0.75rem 2rem;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-size: 1rem;
+                        font-weight: 500;
+                        margin-top: 1rem;
+                        transition: all 0.3s ease;
+                    }
+                    .close-modal-btn:hover {
+                        background: #e5e7eb;
+                    }
+                    .success-message {
+                        color: #6b7280;
+                        line-height: 1.6;
+                        margin: 1rem 0;
+                    }
+                </style>
+                <div class="success-modal">
+                    <div class="success-icon">✓</div>
+                    <h2 style="color: #10b981; margin-bottom: 0.5rem; font-size: 1.5rem;">Appointment Booked!</h2>
+                    <p style="color: #374151; font-size: 1.1rem; margin-bottom: 0.5rem;">Thank you, <strong>${patientName}</strong>!</p>
+                    
+                    <div class="appointment-id-box">
+                        <div class="appointment-id-label">Your Appointment ID</div>
+                        <div class="appointment-id-value" id="copyableAppointmentId">${appointmentId}</div>
+                        <button class="copy-btn" onclick="copyAppointmentId('${appointmentId}', this)">
+                            <i class="fas fa-copy"></i> Copy ID
+                        </button>
+                    </div>
+                    
+                    <p class="success-message">
+                        <i class="fas fa-info-circle" style="color: #3b82f6;"></i> 
+                        Save this ID to track your appointment status.<br>
+                        We'll contact you within 24 hours to confirm.
+                    </p>
+                    
+                    <button class="close-modal-btn" onclick="closeAppointmentSuccessModal()">
+                        <i class="fas fa-check"></i> Got it!
+                    </button>
+                </div>
+            `;
+
+            document.body.appendChild(modalOverlay);
+
+            // Close on overlay click
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    closeAppointmentSuccessModal();
+                }
+            });
+        }
+
+        // Function to copy appointment ID to clipboard
+        function copyAppointmentId(appointmentId, buttonElement) {
+            navigator.clipboard.writeText(appointmentId).then(() => {
+                // Update button to show copied state
+                const originalContent = buttonElement.innerHTML;
+                buttonElement.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                buttonElement.classList.add('copied');
+                
+                // Show notification
+                if (window.appointmentTracker && window.appointmentTracker.showNotification) {
+                    window.appointmentTracker.showNotification('Appointment ID copied to clipboard!', 'success');
+                }
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    buttonElement.innerHTML = originalContent;
+                    buttonElement.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                // Fallback: select the text
+                const idElement = document.getElementById('copyableAppointmentId');
+                if (idElement) {
+                    const range = document.createRange();
+                    range.selectNodeContents(idElement);
+                    const selection = window.getSelection();
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                }
+                alert('Please press Ctrl+C (or Cmd+C) to copy the selected ID');
+            });
+        }
+
+        // Function to close the success modal
+        function closeAppointmentSuccessModal() {
+            const modal = document.getElementById('appointmentSuccessModal');
+            if (modal) {
+                modal.style.opacity = '0';
+                modal.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => {
+                    if (modal.parentNode) {
+                        modal.parentNode.removeChild(modal);
+                    }
+                }, 300);
+            }
+        }
+
+        // Form submission
+        document.querySelector('.appointment-form form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            console.log('Form submitted!');
+            
+            // Check if system is ready
+            if (!systemReady || !window.appointmentTracker) {
+                console.error('System not ready yet');
+                alert('System is still loading. Please wait a moment and try again.\n\nIf this problem persists, please refresh the page.');
+                return;
+            }
+            
+            console.log('System ready, processing appointment...');
+            
+            const formData = new FormData(this);
+            const appointmentData = {
+                name: formData.get('name'),
+                phone: formData.get('phone'),
+                email: formData.get('email'),
+                service: formData.get('service'),
+                date: formData.get('date'),
+                message: formData.get('message') || ''
+            };
+
+            // Validate required fields
+            if (!appointmentData.name || !appointmentData.phone || !appointmentData.email || !appointmentData.service || !appointmentData.date) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            console.log('Appointment data:', appointmentData);
+
+            // Show loading state
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Booking Appointment...';
+            submitButton.disabled = true;
+
+            try {
+                const appointment = await window.appointmentTracker.addAppointment(appointmentData);
+                console.log('Appointment created:', appointment);
+                
+                // Send confirmation email
+                if (window.appointmentTracker.sendEmailNotification) {
+                    try {
+                        await window.appointmentTracker.sendEmailNotification(appointment, 'new');
+                    } catch (emailError) {
+                        console.log('Email notification failed (non-critical):', emailError);
+                    }
+                }
+                
+                // Show success message with appointment ID (copyable)
+                const appointmentId = appointment.appointmentId || appointment.appointment_id || 'N/A';
+                showAppointmentSuccessModal(appointmentId, appointmentData.name);
+                
+                // Reset form
+                this.reset();
+                document.getElementById('date').min = new Date().toISOString().split('T')[0];
+                
+            } catch (error) {
+                console.error('Error booking appointment:', error);
+                alert('❌ Sorry, there was an error booking your appointment.\n\nPlease try again or call us directly at +91 86107 76477.\n\nError details have been logged for our technical team.');
+            } finally {
+                // Restore button
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+            }
+        });
+
+        // Set minimum date for appointment booking (today)
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').min = today;
+
+        // Mobile menu toggle (basic implementation)
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('nav');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Appointment Tracking System
+        class AppointmentTracker {
+            constructor() {
+                this.encryptionKey = this.generateEncryptionKey();
+                this.appointments = this.loadEncryptedAppointments();
+                this.nextId = this.appointments.length > 0 ? Math.max(...this.appointments.map(a => a.id)) + 1 : 1;
+                this.useDatabase = false; // Set to true to use JSON Server
+                this.apiUrl = 'http://localhost:3001'; // JSON Server URL
+                this.initializeAdminPanel();
+                this.initializeDatabase();
+            }
+
+            // Initialize database connection
+            async initializeDatabase() {
+                if (this.useDatabase) {
+                    try {
+                        const response = await fetch(`${this.apiUrl}/appointments`);
+                        if (response.ok) {
+                            this.appointments = await response.json();
+                            this.showNotification('Connected to database successfully', 'success');
+                            this.refreshAdminPanel();
+                        }
+                    } catch (error) {
+                        console.error('Database connection failed:', error);
+                        this.showNotification('Database connection failed, using local storage', 'error');
+                    }
+                }
+            }
+
+            // Generate encryption key based on device
+            generateEncryptionKey() {
+                const deviceInfo = navigator.userAgent + navigator.language + screen.width + screen.height;
+                let hash = 0;
+                for (let i = 0; i < deviceInfo.length; i++) {
+                    const char = deviceInfo.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash;
+                }
+                return hash.toString(36) + 'ShalomDental2025';
+            }
+
+            // Simple encryption function
+            encrypt(text) {
+                const key = this.encryptionKey;
+                let result = '';
+                for (let i = 0; i < text.length; i++) {
+                    const charCode = text.charCodeAt(i);
+                    const keyChar = key.charCodeAt(i % key.length);
+                    const encrypted = charCode ^ keyChar;
+                    result += String.fromCharCode(encrypted);
+                }
+                return btoa(result); // Base64 encode
+            }
+
+            // Simple decryption function
+            decrypt(encryptedText) {
+                try {
+                    const key = this.encryptionKey;
+                    const decoded = atob(encryptedText); // Base64 decode
+                    let result = '';
+                    for (let i = 0; i < decoded.length; i++) {
+                        const charCode = decoded.charCodeAt(i);
+                        const keyChar = key.charCodeAt(i % key.length);
+                        const decrypted = charCode ^ keyChar;
+                        result += String.fromCharCode(decrypted);
+                    }
+                    return result;
+                } catch (e) {
+                    console.error('Decryption failed:', e);
+                    return '[]'; // Return empty array on failure
+                }
+            }
+
+            // Load encrypted appointments from localStorage
+            loadEncryptedAppointments() {
+                try {
+                    const encryptedData = localStorage.getItem('dentalAppointmentsSecure');
+                    if (!encryptedData) {
+                        // Check for old unencrypted data and migrate
+                        const oldData = localStorage.getItem('dentalAppointments');
+                        if (oldData) {
+                            const appointments = JSON.parse(oldData);
+                            this.saveEncryptedAppointments(appointments);
+                            localStorage.removeItem('dentalAppointments'); // Remove old data
+                            return appointments;
+                        }
+                        return [];
+                    }
+                    const decryptedData = this.decrypt(encryptedData);
+                    return JSON.parse(decryptedData);
+                } catch (e) {
+                    console.error('Failed to load appointments:', e);
+                    return [];
+                }
+            }
+
+            // Save encrypted appointments to localStorage
+            saveEncryptedAppointments(appointments = this.appointments) {
+                try {
+                    const jsonData = JSON.stringify(appointments);
+                    const encryptedData = this.encrypt(jsonData);
+                    localStorage.setItem('dentalAppointmentsSecure', encryptedData);
+                } catch (e) {
+                    console.error('Failed to save appointments:', e);
+                    this.showNotification('Error saving appointment data', 'error');
+                }
+            }
+
+            // Generate unique appointment ID
+            generateAppointmentId() {
+                const timestamp = Date.now();
+                const random = Math.floor(Math.random() * 1000);
+                return `APT${timestamp}${random}`;
+            }
+
+            // Add new appointment (can be overridden by SupabaseAppointmentTracker)
+            async addAppointment(appointmentData) {
+                const appointment = {
+                    id: this.nextId++,
+                    appointmentId: this.generateAppointmentId(),
+                    ...appointmentData,
+                    status: 'pending',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                
+                this.appointments.push(appointment);
+                this.saveAppointments();
+                this.notifyAdmin(appointment);
+                return appointment;
+            }
+
+            // Update appointment status
+            updateAppointmentStatus(id, status, notes = '') {
+                if (!this.isSessionValid()) {
+                    this.showNotification('Session expired. Please login again.', 'error');
+                    this.logoutAdmin();
+                    return;
+                }
+
+                const appointment = this.appointments.find(a => a.id === id);
+                if (appointment) {
+                    const oldStatus = appointment.status;
+                    appointment.status = status;
+                    appointment.notes = notes;
+                    appointment.updatedAt = new Date().toISOString();
+                    
+                    // Log admin activity
+                    this.logAdminActivity(`Changed appointment ${appointment.appointmentId} status from ${oldStatus} to ${status}`);
+                    
+                    this.saveAppointments();
+                    this.refreshAdminPanel();
+                    
+                    // Send notification email for status updates
+                    if (status === 'confirmed') {
+                        this.sendEmailNotification(appointment, 'confirmed');
+                    }
+                    
+                    this.showNotification(`Appointment status updated to ${status}`, 'success');
+                }
+            }
+
+            // Log admin activity
+            logAdminActivity(action) {
+                const activities = JSON.parse(localStorage.getItem('adminActivities') || '[]');
+                const activity = {
+                    action: action,
+                    timestamp: new Date().toISOString(),
+                    sessionId: this.adminSessionStart
+                };
+                activities.unshift(activity);
+                localStorage.setItem('adminActivities', JSON.stringify(activities.slice(0, 100))); // Keep last 100 activities
+            }
+
+            // Get appointments by status
+            getAppointmentsByStatus(status) {
+                return this.appointments.filter(a => a.status === status);
+            }
+
+            // Search appointments
+            searchAppointments(query) {
+                const lowercaseQuery = query.toLowerCase();
+                return this.appointments.filter(appointment => 
+                    appointment.name.toLowerCase().includes(lowercaseQuery) ||
+                    appointment.phone.includes(query) ||
+                    appointment.email.toLowerCase().includes(lowercaseQuery) ||
+                    appointment.appointmentId.toLowerCase().includes(lowercaseQuery)
+                );
+            }
+
+            // Save to localStorage or database
+            async saveAppointments() {
+                if (this.useDatabase) {
+                    // Save to JSON Server database
+                    try {
+                        // Note: This is a simple implementation
+                        // In production, you'd want proper sync logic
+                        this.saveEncryptedAppointments(); // Also save locally as backup
+                    } catch (error) {
+                        console.error('Failed to save to database:', error);
+                        this.showNotification('Failed to save to database, saved locally', 'error');
+                        this.saveEncryptedAppointments();
+                    }
+                } else {
+                    this.saveEncryptedAppointments();
+                }
+            }
+
+            // Send email notification (basic implementation)
+            async sendEmailNotification(appointment, type = 'new') {
+                // This would integrate with your email service (EmailJS, SendGrid, etc.)
+                const emailData = {
+                    to: appointment.email,
+                    adminCopy: 'karunyadhanasekaran6@gmail.com', // Admin notification
+                    subject: type === 'new' ? 'Appointment Confirmation - Shalom Dental Care' : 'Appointment Update - Shalom Dental Care',
+                    template: this.getEmailTemplate(appointment, type)
+                };
+
+                // Simulate email sending
+                console.log('Email would be sent to:', emailData.to);
+                console.log('Admin copy would be sent to:', emailData.adminCopy);
+                console.log('Email content:', emailData);
+                
+                // For production, integrate with actual email service:
+                // Example with EmailJS:
+                // await emailjs.send('service_id', 'template_id', emailData, 'public_key');
+                
+                this.showNotification(`Email notification sent to ${appointment.email}`, 'success');
+            }
+
+            // Get email template
+            getEmailTemplate(appointment, type) {
+                const baseTemplate = `
+                    <h2>Shalom Dental Care</h2>
+                    <p>Dear ${appointment.name},</p>
+                `;
+
+                switch(type) {
+                    case 'new':
+                        return baseTemplate + `
+                            <p>Thank you for booking an appointment with us!</p>
+                            <p><strong>Appointment ID:</strong> ${appointment.appointmentId}</p>
+                            <p><strong>Preferred Date:</strong> ${appointment.date}</p>
+                            <p><strong>Service:</strong> ${appointment.service}</p>
+                            <p>We will contact you within 24 hours to confirm your appointment time.</p>
+                            <p>Best regards,<br>Shalom Dental Care Team</p>
+                        `;
+                    case 'confirmed':
+                        return baseTemplate + `
+                            <p>Your appointment has been confirmed!</p>
+                            <p><strong>Appointment ID:</strong> ${appointment.appointmentId}</p>
+                            <p><strong>Date & Time:</strong> ${appointment.confirmedDateTime || appointment.date}</p>
+                            <p>Please arrive 15 minutes early. If you need to reschedule, call us at +91 86107 76477.</p>
+                            <p>Best regards,<br>Shalom Dental Care Team</p>
+                        `;
+                    default:
+                        return baseTemplate + `<p>Your appointment status has been updated.</p>`;
+                }
+            }
+
+            // Notify admin (you could enhance this with real notifications)
+            notifyAdmin(appointment) {
+                // Create admin notification
+                const notification = {
+                    message: `New appointment from ${appointment.name}`,
+                    appointment: appointment,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Store notifications
+                const notifications = JSON.parse(localStorage.getItem('adminNotifications') || '[]');
+                notifications.unshift(notification);
+                localStorage.setItem('adminNotifications', JSON.stringify(notifications.slice(0, 50))); // Keep last 50
+            }
+
+            // Initialize admin panel
+            initializeAdminPanel() {
+                this.createAdminPanel();
+                this.createPatientLookup();
+            }
+
+            // Create admin panel
+            createAdminPanel() {
+                const adminPanel = document.createElement('div');
+                adminPanel.id = 'adminPanel';
+                adminPanel.innerHTML = `
+                    <style>
+                        #adminPanel {
+                            position: fixed;
+                            top: 0;
+                            right: -450px;
+                            width: 450px;
+                            height: 100vh;
+                            background: white;
+                            box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+                            z-index: 10000;
+                            transition: right 0.3s ease;
+                            overflow-y: auto;
+                        }
+                        #adminPanel.open {
+                            right: 0;
+                        }
+                        .admin-header {
+                            background: var(--primary-blue);
+                            color: white;
+                            padding: 1rem;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            position: sticky;
+                            top: 0;
+                            z-index: 1;
+                        }
+                        .admin-content {
+                            padding: 1rem;
+                        }
+                        .appointment-item {
+                            border: 1px solid #ddd;
+                            border-radius: 8px;
+                            padding: 1rem;
+                            margin-bottom: 1rem;
+                            background: white;
+                            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                        }
+                        .appointment-item.pending {
+                            border-left: 4px solid #f59e0b;
+                        }
+                        .appointment-item.confirmed {
+                            border-left: 4px solid #10b981;
+                        }
+                        .appointment-item.cancelled {
+                            border-left: 4px solid #ef4444;
+                        }
+                        .appointment-item.completed {
+                            border-left: 4px solid #6366f1;
+                        }
+                        .appointment-actions {
+                            display: flex;
+                            gap: 0.5rem;
+                            margin-top: 1rem;
+                            flex-wrap: wrap;
+                        }
+                        .appointment-actions button {
+                            padding: 0.4rem 0.8rem;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-size: 0.8rem;
+                            font-weight: 500;
+                        }
+                        .btn-confirm { background: #10b981; color: white; }
+                        .btn-cancel { background: #ef4444; color: white; }
+                        .btn-complete { background: #6366f1; color: white; }
+                        .btn-reschedule { background: #f59e0b; color: white; }
+                        .admin-stats {
+                            display: grid;
+                            grid-template-columns: repeat(4, 1fr);
+                            gap: 1rem;
+                            margin-bottom: 2rem;
+                        }
+                        .stat-card {
+                            background: var(--light-blue);
+                            padding: 1rem;
+                            border-radius: 8px;
+                            text-align: center;
+                        }
+                        .stat-number {
+                            font-size: 1.5rem;
+                            font-weight: bold;
+                            color: var(--primary-blue);
+                        }
+                        .stat-label {
+                            font-size: 0.8rem;
+                            color: var(--medium-gray);
+                        }
+                        .admin-search {
+                            margin-bottom: 1rem;
+                        }
+                        .admin-search input {
+                            width: 100%;
+                            padding: 0.75rem;
+                            border: 1px solid #ddd;
+                            border-radius: 6px;
+                            font-size: 0.9rem;
+                        }
+                        .filter-tabs {
+                            display: flex;
+                            margin-bottom: 1rem;
+                            border-bottom: 1px solid #ddd;
+                        }
+                        .filter-tab {
+                            padding: 0.75rem 1rem;
+                            background: none;
+                            border: none;
+                            cursor: pointer;
+                            font-weight: 500;
+                            color: var(--medium-gray);
+                            font-size: 0.9rem;
+                        }
+                        .filter-tab.active {
+                            color: var(--primary-blue);
+                            border-bottom: 2px solid var(--primary-blue);
+                        }
+                        .export-btn {
+                            background: var(--accent-green);
+                            color: white;
+                            padding: 0.5rem 1rem;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-size: 0.9rem;
+                            margin-left: auto;
+                        }
+                        .view-toggle {
+                            display: flex;
+                            gap: 0.5rem;
+                            margin-bottom: 1rem;
+                        }
+                        .view-toggle button {
+                            padding: 0.5rem 1rem;
+                            border: 1px solid #ddd;
+                            background: white;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-size: 0.85rem;
+                            transition: all 0.2s;
+                        }
+                        .view-toggle button.active {
+                            background: var(--primary-blue);
+                            color: white;
+                            border-color: var(--primary-blue);
+                        }
+                        .calendar-container {
+                            background: white;
+                            border-radius: 12px;
+                            padding: 1rem;
+                            margin-bottom: 1rem;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                        }
+                        .calendar-header {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-bottom: 1rem;
+                            padding-bottom: 0.5rem;
+                            border-bottom: 1px solid #eee;
+                        }
+                        .calendar-header h4 {
+                            margin: 0;
+                            color: var(--primary-blue);
+                            font-size: 1.1rem;
+                        }
+                        .calendar-nav {
+                            display: flex;
+                            gap: 0.5rem;
+                        }
+                        .calendar-nav button {
+                            padding: 0.4rem 0.8rem;
+                            border: 1px solid #ddd;
+                            background: white;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-size: 0.85rem;
+                        }
+                        .calendar-nav button:hover {
+                            background: var(--light-blue);
+                        }
+                        .calendar-grid {
+                            display: grid;
+                            grid-template-columns: repeat(7, 1fr);
+                            gap: 2px;
+                        }
+                        .calendar-day-header {
+                            text-align: center;
+                            font-weight: 600;
+                            font-size: 0.75rem;
+                            color: var(--medium-gray);
+                            padding: 0.5rem 0;
+                            background: var(--light-blue);
+                        }
+                        .calendar-day {
+                            min-height: 70px;
+                            border: 1px solid #eee;
+                            padding: 0.25rem;
+                            font-size: 0.75rem;
+                            position: relative;
+                            background: white;
+                            cursor: pointer;
+                            transition: background 0.2s;
+                        }
+                        .calendar-day:hover {
+                            background: #f8fafc;
+                        }
+                        .calendar-day.other-month {
+                            background: #f9fafb;
+                            color: #9ca3af;
+                        }
+                        .calendar-day.today {
+                            background: #eff6ff;
+                            border-color: var(--primary-blue);
+                        }
+                        .calendar-day-number {
+                            font-weight: 600;
+                            margin-bottom: 0.25rem;
+                            color: #374151;
+                        }
+                        .calendar-day.other-month .calendar-day-number {
+                            color: #9ca3af;
+                        }
+                        .calendar-appointment {
+                            font-size: 0.65rem;
+                            padding: 2px 4px;
+                            border-radius: 3px;
+                            margin-bottom: 2px;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            cursor: pointer;
+                        }
+                        .calendar-appointment.pending {
+                            background: #fef3c7;
+                            color: #92400e;
+                        }
+                        .calendar-appointment.confirmed {
+                            background: #d1fae5;
+                            color: #065f46;
+                        }
+                        .calendar-appointment.completed {
+                            background: #e0e7ff;
+                            color: #3730a3;
+                        }
+                        .calendar-appointment.cancelled {
+                            background: #fee2e2;
+                            color: #991b1b;
+                            text-decoration: line-through;
+                        }
+                        .calendar-more {
+                            font-size: 0.6rem;
+                            color: var(--primary-blue);
+                            text-align: center;
+                            cursor: pointer;
+                        }
+                        .day-detail-modal {
+                            position: fixed;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            background: white;
+                            border-radius: 12px;
+                            padding: 1.5rem;
+                            max-width: 400px;
+                            width: 90%;
+                            max-height: 80vh;
+                            overflow-y: auto;
+                            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                            z-index: 10003;
+                        }
+                        .day-detail-overlay {
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            background: rgba(0,0,0,0.5);
+                            z-index: 10002;
+                        }
+                        /* Calendar Grid Layout */
+                        .calendar-weekdays {
+                            display: grid;
+                            grid-template-columns: repeat(7, 1fr);
+                            background: var(--light-blue);
+                            border-radius: 8px 8px 0 0;
+                            overflow: hidden;
+                        }
+                        .calendar-weekdays div {
+                            text-align: center;
+                            font-weight: 600;
+                            font-size: 0.8rem;
+                            color: var(--primary-blue);
+                            padding: 0.75rem 0;
+                            border-right: 1px solid rgba(91, 143, 185, 0.1);
+                        }
+                        .calendar-weekdays div:last-child {
+                            border-right: none;
+                        }
+                        .calendar-days {
+                            display: grid;
+                            grid-template-columns: repeat(7, 1fr);
+                            gap: 1px;
+                            background: #e5e7eb;
+                            border: 1px solid #e5e7eb;
+                            border-radius: 0 0 8px 8px;
+                        }
+                        .calendar-day {
+                            min-height: 85px;
+                            padding: 0.5rem;
+                            font-size: 0.8rem;
+                            position: relative;
+                            background: white;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                        }
+                        .calendar-day:hover {
+                            background: #f0f9ff;
+                            transform: scale(1.02);
+                            z-index: 1;
+                            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                        }
+                        .calendar-day.empty {
+                            background: #f9fafb;
+                            cursor: default;
+                        }
+                        .calendar-day.empty:hover {
+                            transform: none;
+                            box-shadow: none;
+                        }
+                        .calendar-day.today {
+                            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+                            border: 2px solid var(--primary-blue);
+                        }
+                        .calendar-day.has-appointments {
+                            background: linear-gradient(135deg, #fefce8, #fef9c3);
+                        }
+                        .calendar-day.today.has-appointments {
+                            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+                            border: 2px solid #10b981;
+                        }
+                        .day-number {
+                            font-weight: 700;
+                            font-size: 0.95rem;
+                            color: #374151;
+                            display: block;
+                            margin-bottom: 0.25rem;
+                        }
+                        .calendar-day.today .day-number {
+                            color: var(--primary-blue);
+                        }
+                        .appointment-count {
+                            font-size: 0.7rem;
+                            color: #6b7280;
+                            margin-bottom: 0.25rem;
+                        }
+                        .calendar-badges {
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 2px;
+                        }
+                        .calendar-badge {
+                            font-size: 0.6rem;
+                            font-weight: 600;
+                            padding: 2px 6px;
+                            border-radius: 10px;
+                            color: white;
+                        }
+                        .calendar-badge.pending {
+                            background: #f59e0b;
+                        }
+                        .calendar-badge.confirmed {
+                            background: #10b981;
+                        }
+                        .calendar-badge.completed {
+                            background: #6366f1;
+                        }
+                        .calendar-badge.cancelled {
+                            background: #ef4444;
+                        }
+                        /* Day Detail Modal Styling */
+                        .day-detail-appointment {
+                            background: white;
+                            border: 1px solid #e5e7eb;
+                            border-radius: 8px;
+                            padding: 1rem;
+                            margin-bottom: 0.75rem;
+                            border-left: 4px solid #6b7280;
+                            transition: all 0.2s ease;
+                        }
+                        .day-detail-appointment:hover {
+                            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                        }
+                        .day-detail-appointment.pending {
+                            border-left-color: #f59e0b;
+                            background: linear-gradient(to right, #fffbeb, white);
+                        }
+                        .day-detail-appointment.confirmed {
+                            border-left-color: #10b981;
+                            background: linear-gradient(to right, #ecfdf5, white);
+                        }
+                        .day-detail-appointment.completed {
+                            border-left-color: #6366f1;
+                            background: linear-gradient(to right, #eef2ff, white);
+                        }
+                        .day-detail-appointment.cancelled {
+                            border-left-color: #ef4444;
+                            background: linear-gradient(to right, #fef2f2, white);
+                            opacity: 0.7;
+                        }
+                    </style>
+                    <div class="admin-header">
+                        <h3><i class="fas fa-shield-alt"></i> Secure Admin Portal</h3>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <span style="background: var(--accent-green); color: white; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-cloud"></i> <span id="supabase-status">Supabase Cloud</span>
+                            </span>
+                            <button onclick="appointmentTracker.changeAdminPassword()" style="background: var(--secondary-teal); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                                <i class="fas fa-key"></i> Change Password
+                            </button>
+                            <button onclick="appointmentTracker.syncLocalToSupabase()" style="background: var(--primary-blue); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                                <i class="fas fa-sync"></i> Sync Local Data
+                            </button>
+                            <button onclick="appointmentTracker.exportAppointments()" class="export-btn">Export CSV</button>
+                            <button onclick="appointmentTracker.logoutAdmin()" style="background: #ef4444; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                            <button onclick="appointmentTracker.closeAdminPanel()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 0.5rem 1rem; font-size: 0.8rem; color: rgba(255,255,255,0.9); border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <i class="fas fa-shield-alt"></i> Secure Session Active • Data Encrypted • Session Timeout: 30 minutes • 
+                        <span id="dbModeIndicator">Supabase Cloud Database</span>
+                    </div>
+                    <div class="admin-content">
+                        <div class="admin-stats">
+                            <div class="stat-card">
+                                <div class="stat-number" id="pendingCount">0</div>
+                                <div class="stat-label">Pending</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="confirmedCount">0</div>
+                                <div class="stat-label">Confirmed</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="todayCount">0</div>
+                                <div class="stat-label">Today</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalCount">0</div>
+                                <div class="stat-label">Total</div>
+                            </div>
+                        </div>
+                        
+                        <div class="admin-search">
+                            <input type="text" id="appointmentSearch" placeholder="Search by name, phone, email, or appointment ID..." onkeyup="appointmentTracker.searchAndDisplay(this.value)">
+                        </div>
+                        
+                        <div class="view-toggle">
+                            <button class="active" onclick="appointmentTracker.switchView('list', this)">
+                                <i class="fas fa-list"></i> List View
+                            </button>
+                            <button onclick="appointmentTracker.switchView('calendar', this)">
+                                <i class="fas fa-calendar-alt"></i> Calendar View
+                            </button>
+                        </div>
+                        
+                        <div id="calendarView" style="display: none;">
+                            <div class="calendar-container">
+                                <div class="calendar-header">
+                                    <h4 id="calendarMonthYear">January 2026</h4>
+                                    <div class="calendar-nav">
+                                        <button onclick="appointmentTracker.previousMonth()">
+                                            <i class="fas fa-chevron-left"></i> Prev
+                                        </button>
+                                        <button onclick="appointmentTracker.goToToday()">Today</button>
+                                        <button onclick="appointmentTracker.nextMonth()">
+                                            Next <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="calendar-grid" id="calendarGrid"></div>
+                            </div>
+                        </div>
+                        
+                        <div id="listView">
+                            <div class="filter-tabs">
+                                <button class="filter-tab active" onclick="appointmentTracker.filterAppointments('all', this)">All</button>
+                                <button class="filter-tab" onclick="appointmentTracker.filterAppointments('pending', this)">Pending</button>
+                                <button class="filter-tab" onclick="appointmentTracker.filterAppointments('confirmed', this)">Confirmed</button>
+                                <button class="filter-tab" onclick="appointmentTracker.filterAppointments('completed', this)">Completed</button>
+                            </div>
+                            
+                            <div id="appointmentsList"></div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(adminPanel);
+            }
+
+            // Create patient lookup section
+            createPatientLookup() {
+                const lookupSection = document.createElement('div');
+                lookupSection.innerHTML = `
+                    <div id="patientLookup" style="background: #e8f4fc; padding: 2rem; margin-top: 3rem; border-radius: 15px; border: 1px solid #e2e7ec;">
+                        <h3 style="margin-bottom: 1rem; color: #1e3a5f; text-align: center;">
+                            <i class="fas fa-search"></i> Track Your Appointment
+                        </h3>
+                        <p style="margin-bottom: 1.5rem; color: #6b7c8a; text-align: center;">Enter your appointment ID or phone number to check your appointment status:</p>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                            <input type="text" id="lookupInput" placeholder="Enter Appointment ID (e.g., APT123...) or Phone Number" style="flex: 1; padding: 0.875rem 1rem; border: 2px solid #e2e7ec; border-radius: 8px; font-size: 1rem;">
+                            <button onclick="appointmentTracker.lookupAppointment()" class="cta-button">Check Status</button>
+                        </div>
+                        <div id="lookupResult"></div>
+                    </div>
+                `;
+                
+                // Add to appointment section
+                const appointmentSection = document.querySelector('#appointment');
+                appointmentSection.appendChild(lookupSection);
+            }
+
+            // Open admin panel
+            openAdminPanel() {
+                this.authenticateAdmin();
+            }
+
+            // Authenticate admin access
+            authenticateAdmin() {
+                const password = prompt('Enter admin password:');
+                if (!password) return;
+
+                // Hash the password for comparison
+                const hashedPassword = this.hashPassword(password);
+                const storedHash = localStorage.getItem('adminPasswordHash') || this.hashPassword('admin123'); // Default password
+
+                if (hashedPassword === storedHash) {
+                    // Set session timestamp
+                    this.adminSessionStart = Date.now();
+                    this.sessionTimeout = 30 * 60 * 1000; // 30 minutes
+                    
+                    document.getElementById('adminPanel').classList.add('open');
+                    this.refreshAdminPanel();
+                    this.showNotification('Admin access granted', 'success');
+                    this.startSessionTimer();
+                } else {
+                    this.showNotification('Invalid password. Access denied.', 'error');
+                }
+            }
+
+            // Start session timer
+            startSessionTimer() {
+                if (this.sessionTimer) clearTimeout(this.sessionTimer);
+                
+                this.sessionTimer = setTimeout(() => {
+                    this.logoutAdmin();
+                    this.showNotification('Session expired. Please login again.', 'error');
+                }, this.sessionTimeout);
+            }
+
+            // Check if session is valid
+            isSessionValid() {
+                if (!this.adminSessionStart) return false;
+                const elapsed = Date.now() - this.adminSessionStart;
+                return elapsed < this.sessionTimeout;
+            }
+
+            // Logout admin
+            logoutAdmin() {
+                this.adminSessionStart = null;
+                if (this.sessionTimer) clearTimeout(this.sessionTimer);
+                this.closeAdminPanel();
+                this.showNotification('Logged out successfully', 'info');
+            }
+
+            // Simple hash function for password
+            hashPassword(password) {
+                let hash = 0;
+                const salt = 'ShalomDentalSecure2025';
+                const combined = password + salt;
+                for (let i = 0; i < combined.length; i++) {
+                    const char = combined.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash; // Convert to 32-bit integer
+                }
+                return hash.toString(36);
+            }
+
+            // Change admin password
+            changeAdminPassword() {
+                const currentPassword = prompt('Enter current admin password:');
+                if (!currentPassword) return;
+
+                const currentHash = this.hashPassword(currentPassword);
+                const storedHash = localStorage.getItem('adminPasswordHash') || this.hashPassword('admin123');
+
+                if (currentHash !== storedHash) {
+                    this.showNotification('Current password is incorrect', 'error');
+                    return;
+                }
+
+                const newPassword = prompt('Enter new admin password (minimum 6 characters):');
+                if (!newPassword || newPassword.length < 6) {
+                    this.showNotification('Password must be at least 6 characters long', 'error');
+                    return;
+                }
+
+                const confirmPassword = prompt('Confirm new password:');
+                if (newPassword !== confirmPassword) {
+                    this.showNotification('Passwords do not match', 'error');
+                    return;
+                }
+
+                const newHash = this.hashPassword(newPassword);
+                localStorage.setItem('adminPasswordHash', newHash);
+                this.showNotification('Admin password changed successfully', 'success');
+            }
+
+            // Show notification
+            showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                    z-index: 10001;
+                    font-weight: 500;
+                    max-width: 300px;
+                    word-wrap: break-word;
+                `;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translateX(100%)';
+                    notification.style.transition = 'all 0.3s ease';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                        }
+                    }, 300);
+                }, 3000);
+            }
+
+            // Close admin panel
+            closeAdminPanel() {
+                document.getElementById('adminPanel').classList.remove('open');
+            }
+
+            // Refresh admin panel data
+            refreshAdminPanel() {
+                // Check session validity before refreshing
+                if (!this.isSessionValid() && document.getElementById('adminPanel').classList.contains('open')) {
+                    this.logoutAdmin();
+                    return;
+                }
+
+                const pendingCount = this.getAppointmentsByStatus('pending').length;
+                const confirmedCount = this.getAppointmentsByStatus('confirmed').length;
+                const today = new Date().toISOString().split('T')[0];
+                const todayCount = this.appointments.filter(a => a.date === today).length;
+                const totalCount = this.appointments.length;
+
+                if (document.getElementById('pendingCount')) {
+                    document.getElementById('pendingCount').textContent = pendingCount;
+                    document.getElementById('confirmedCount').textContent = confirmedCount;
+                    document.getElementById('todayCount').textContent = todayCount;
+                    document.getElementById('totalCount').textContent = totalCount;
+                }
+
+                this.displayAppointments(this.appointments);
+                
+                // Also refresh calendar view if it's visible
+                const calendarView = document.getElementById('calendarView');
+                if (calendarView && calendarView.style.display !== 'none') {
+                    this.renderCalendar();
+                }
+            }
+
+            // Display appointments in admin panel
+            displayAppointments(appointments) {
+                const appointmentsList = document.getElementById('appointmentsList');
+                if (!appointmentsList) return;
+
+                if (appointments.length === 0) {
+                    appointmentsList.innerHTML = '<p style="text-align: center; color: var(--medium-gray); padding: 2rem;">No appointments found.</p>';
+                    return;
+                }
+
+                appointmentsList.innerHTML = appointments
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                    .map(appointment => `
+                    <div class="appointment-item ${appointment.status}">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                            <strong style="font-size: 1.1rem;">${appointment.name}</strong>
+                            <span style="background: ${this.getStatusColor(appointment.status)}; color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500;">
+                                ${appointment.status.toUpperCase()}
+                            </span>
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--medium-gray); margin-bottom: 0.75rem; line-height: 1.4;">
+                            <div style="margin-bottom: 0.25rem;"><strong>ID:</strong> ${appointment.appointmentId}</div>
+                            <div style="margin-bottom: 0.25rem;"><strong>Phone:</strong> ${appointment.phone}</div>
+                            <div style="margin-bottom: 0.25rem;"><strong>Email:</strong> ${appointment.email}</div>
+                            <div style="margin-bottom: 0.25rem;"><strong>Date:</strong> ${new Date(appointment.date).toLocaleDateString()}</div>
+                            <div style="margin-bottom: 0.25rem;"><strong>Service:</strong> ${appointment.service}</div>
+                            ${appointment.message ? `<div style="margin-bottom: 0.25rem;"><strong>Message:</strong> ${appointment.message}</div>` : ''}
+                        </div>
+                        <div class="appointment-actions">
+                            ${appointment.status === 'pending' ? `
+                                <button class="btn-confirm" onclick="appointmentTracker.updateAppointmentStatus(${appointment.id}, 'confirmed')">✓ Confirm</button>
+                                <button class="btn-reschedule" onclick="appointmentTracker.rescheduleAppointment(${appointment.id})">📅 Reschedule</button>
+                                <button class="btn-cancel" onclick="appointmentTracker.updateAppointmentStatus(${appointment.id}, 'cancelled')">✗ Cancel</button>
+                            ` : ''}
+                            ${appointment.status === 'confirmed' ? `
+                                <button class="btn-complete" onclick="appointmentTracker.updateAppointmentStatus(${appointment.id}, 'completed')">✓ Complete</button>
+                                <button class="btn-reschedule" onclick="appointmentTracker.rescheduleAppointment(${appointment.id})">📅 Reschedule</button>
+                                <button class="btn-cancel" onclick="appointmentTracker.updateAppointmentStatus(${appointment.id}, 'cancelled')">✗ Cancel</button>
+                            ` : ''}
+                        </div>
+                        <div style="font-size: 0.8rem; color: var(--medium-gray); margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #eee;">
+                            <div>Created: ${new Date(appointment.createdAt).toLocaleDateString()} ${new Date(appointment.createdAt).toLocaleTimeString()}</div>
+                            ${appointment.updatedAt !== appointment.createdAt ? `<div>Updated: ${new Date(appointment.updatedAt).toLocaleDateString()} ${new Date(appointment.updatedAt).toLocaleTimeString()}</div>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Get status color
+            getStatusColor(status) {
+                const colors = {
+                    pending: '#f59e0b',
+                    confirmed: '#10b981',
+                    cancelled: '#ef4444',
+                    completed: '#6366f1'
+                };
+                return colors[status] || '#6b7280';
+            }
+
+            // Filter appointments
+            filterAppointments(status, tabElement) {
+                // Update active tab
+                document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+                tabElement.classList.add('active');
+
+                // Filter and display
+                const filtered = status === 'all' ? this.appointments : this.getAppointmentsByStatus(status);
+                this.displayAppointments(filtered);
+            }
+
+            // Search and display
+            searchAndDisplay(query) {
+                const results = query ? this.searchAppointments(query) : this.appointments;
+                this.displayAppointments(results);
+            }
+
+            // Reschedule appointment
+            rescheduleAppointment(id) {
+                if (!this.isSessionValid()) {
+                    this.showNotification('Session expired. Please login again.', 'error');
+                    this.logoutAdmin();
+                    return;
+                }
+
+                const newDate = prompt('Enter new date (YYYY-MM-DD):');
+                if (newDate) {
+                    const appointment = this.appointments.find(a => a.id === id);
+                    if (appointment) {
+                        const oldDate = appointment.date;
+                        appointment.date = newDate;
+                        appointment.updatedAt = new Date().toISOString();
+                        
+                        // Log admin activity
+                        this.logAdminActivity(`Rescheduled appointment ${appointment.appointmentId} from ${oldDate} to ${newDate}`);
+                        
+                        this.saveAppointments();
+                        this.refreshAdminPanel();
+                        this.showNotification('Appointment rescheduled successfully!', 'success');
+                    }
+                }
+            }
+
+            // Patient appointment lookup
+            lookupAppointment() {
+                const query = document.getElementById('lookupInput').value.trim();
+                const resultDiv = document.getElementById('lookupResult');
+                
+                if (!query) {
+                    resultDiv.innerHTML = '<p style="color: #ef4444; text-align: center; margin-top: 1rem;">Please enter an appointment ID or phone number.</p>';
+                    return;
+                }
+
+                const appointment = this.appointments.find(a => 
+                    a.appointmentId?.toLowerCase().includes(query.toLowerCase()) ||
+                    a.appointment_id?.toLowerCase().includes(query.toLowerCase()) ||
+                    a.phone.includes(query)
+                );
+
+                if (appointment) {
+                    const statusMessages = {
+                        pending: {
+                            icon: '⏳',
+                            message: 'We will contact you within 24 hours to confirm your appointment time.',
+                            color: '#f59e0b'
+                        },
+                        confirmed: {
+                            icon: '✅',
+                            message: 'Your appointment is confirmed! Please arrive 15 minutes early.',
+                            color: '#10b981'
+                        },
+                        cancelled: {
+                            icon: '❌',
+                            message: 'This appointment has been cancelled. Please contact us to reschedule.',
+                            color: '#ef4444'
+                        },
+                        completed: {
+                            icon: '🎉',
+                            message: 'This appointment has been completed. Thank you for visiting us!',
+                            color: '#6366f1'
+                        }
+                    };
+
+                    const statusInfo = statusMessages[appointment.status];
+                    const appointmentId = appointment.appointmentId || appointment.appointment_id;
+
+                    resultDiv.innerHTML = `
+                        <div style="background: white; padding: 2rem; border-radius: 12px; margin-top: 1.5rem; border-left: 4px solid ${statusInfo.color}; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                            <h4 style="margin-bottom: 1.5rem; color: var(--primary-blue); text-align: center; font-size: 1.3rem;">
+                                ${statusInfo.icon} Appointment Found
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                                <div><strong>Appointment ID:</strong><br>${appointmentId}</div>
+                                <div><strong>Name:</strong><br>${appointment.name}</div>
+                                <div><strong>Date:</strong><br>${new Date(appointment.date || appointment.appointment_date).toLocaleDateString()}</div>
+                                <div><strong>Service:</strong><br>${appointment.service}</div>
+                            </div>
+                            <div style="text-align: center; margin: 1.5rem 0;">
+                                <span style="background: ${statusInfo.color}; color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-size: 1rem; font-weight: 600;">
+                                    ${appointment.status.toUpperCase()}
+                                </span>
+                            </div>
+                            <div style="background: ${statusInfo.color}15; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                                <p style="color: ${statusInfo.color}; font-weight: 600; margin: 0;">
+                                    ${statusInfo.message}
+                                </p>
+                            </div>
+                            <div style="text-align: center; margin-top: 1.5rem;">
+                                <p style="color: var(--medium-gray); font-size: 0.9rem;">
+                                    Need to make changes? Call us at <strong>+91 86107 76477</strong>
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div style="background: white; padding: 2rem; border-radius: 12px; margin-top: 1.5rem; border-left: 4px solid #ef4444; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                            <div style="text-align: center;">
+                                <h4 style="color: #ef4444; margin-bottom: 1rem;">❌ Appointment Not Found</h4>
+                                <p style="color: var(--medium-gray); margin-bottom: 1.5rem;">
+                                    We couldn't find an appointment with that ID or phone number.
+                                </p>
+                                <div style="background: #ef444415; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                                    <p style="color: #ef4444; margin: 0; font-weight: 500;">
+                                        Please check your information and try again
+                                    </p>
+                                </div>
+                                <p style="color: var(--medium-gray);">
+                                    Still having trouble? Contact us at <strong>+91 86107 76477</strong> or 
+                                    <strong>shalomdentalcare19@gmail.com</strong>
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            // Export appointments to CSV
+            exportAppointments() {
+                const csvContent = [
+                    ['Date Created', 'Appointment ID', 'Name', 'Phone', 'Email', 'Service', 'Appointment Date', 'Status', 'Message'].join(','),
+                    ...this.appointments.map(a => [
+                        new Date(a.createdAt).toLocaleDateString(),
+                        a.appointmentId,
+                        `"${a.name}"`,
+                        a.phone,
+                        a.email,
+                        `"${a.service}"`,
+                        a.date,
+                        a.status,
+                        `"${a.message || ''}"`
+                    ].join(','))
+                ].join('\n');
+
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `shalom-dental-appointments-${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }
+
+            // Get analytics data
+            getAnalytics() {
+                const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+                const recentAppointments = this.appointments.filter(a => new Date(a.createdAt) > thirtyDaysAgo);
+                
+                return {
+                    totalAppointments: this.appointments.length,
+                    pendingAppointments: this.getAppointmentsByStatus('pending').length,
+                    confirmedAppointments: this.getAppointmentsByStatus('confirmed').length,
+                    completedAppointments: this.getAppointmentsByStatus('completed').length,
+                    cancelledAppointments: this.getAppointmentsByStatus('cancelled').length,
+                    recentAppointments: recentAppointments.length,
+                    popularServices: this.getPopularServices(),
+                    busyDays: this.getBusyDays()
+                };
+            }
+
+            // Get popular services
+            getPopularServices() {
+                const serviceCounts = {};
+                this.appointments.forEach(a => {
+                    serviceCounts[a.service] = (serviceCounts[a.service] || 0) + 1;
+                });
+                return Object.entries(serviceCounts)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5);
+            }
+
+            // Get busy days
+            getBusyDays() {
+                const dayCounts = {};
+                this.appointments.forEach(a => {
+                    dayCounts[a.date] = (dayCounts[a.date] || 0) + 1;
+                });
+                return Object.entries(dayCounts)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 10);
+            }
+
+            // Calendar view properties
+            currentCalendarDate = new Date();
+            
+            // Switch between list and calendar views
+            switchView(viewType, buttonElement) {
+                // Update active button
+                document.querySelectorAll('.view-toggle button').forEach(btn => btn.classList.remove('active'));
+                buttonElement.classList.add('active');
+                
+                const listView = document.getElementById('listView');
+                const calendarView = document.getElementById('calendarView');
+                
+                if (viewType === 'calendar') {
+                    listView.style.display = 'none';
+                    calendarView.style.display = 'block';
+                    this.renderCalendar();
+                } else {
+                    listView.style.display = 'block';
+                    calendarView.style.display = 'none';
+                }
+            }
+            
+            // Render the calendar
+            renderCalendar() {
+                const calendarGrid = document.getElementById('calendarGrid');
+                const monthYearLabel = document.getElementById('calendarMonthYear');
+                
+                if (!calendarGrid || !monthYearLabel) return;
+                
+                const year = this.currentCalendarDate.getFullYear();
+                const month = this.currentCalendarDate.getMonth();
+                
+                // Update month/year label
+                const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                                   'July', 'August', 'September', 'October', 'November', 'December'];
+                monthYearLabel.textContent = `${monthNames[month]} ${year}`;
+                
+                // Get first day of month and total days
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const today = new Date();
+                const todayStr = today.toISOString().split('T')[0];
+                
+                // Get appointments for this month grouped by date
+                const appointmentsByDate = this.getAppointmentsByMonth(year, month);
+                
+                // Build calendar HTML
+                let calendarHTML = `
+                    <div class="calendar-weekdays">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
+                    <div class="calendar-days">
+                `;
+                
+                // Add empty cells for days before the first day of the month
+                for (let i = 0; i < firstDay; i++) {
+                    calendarHTML += '<div class="calendar-day empty"></div>';
+                }
+                
+                // Add days of the month
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    const dayAppointments = appointmentsByDate[dateStr] || [];
+                    const appointmentCount = dayAppointments.length;
+                    const isToday = dateStr === todayStr;
+                    const hasAppointments = appointmentCount > 0;
+                    
+                    // Determine status classes for badges
+                    let statusBadges = '';
+                    if (hasAppointments) {
+                        const pending = dayAppointments.filter(a => a.status === 'pending').length;
+                        const confirmed = dayAppointments.filter(a => a.status === 'confirmed').length;
+                        const completed = dayAppointments.filter(a => a.status === 'completed').length;
+                        const cancelled = dayAppointments.filter(a => a.status === 'cancelled').length;
+                        
+                        if (pending > 0) statusBadges += `<span class="calendar-badge pending">${pending}</span>`;
+                        if (confirmed > 0) statusBadges += `<span class="calendar-badge confirmed">${confirmed}</span>`;
+                        if (completed > 0) statusBadges += `<span class="calendar-badge completed">${completed}</span>`;
+                        if (cancelled > 0) statusBadges += `<span class="calendar-badge cancelled">${cancelled}</span>`;
+                    }
+                    
+                    calendarHTML += `
+                        <div class="calendar-day ${isToday ? 'today' : ''} ${hasAppointments ? 'has-appointments' : ''}" 
+                             onclick="appointmentTracker.showDayDetails('${dateStr}')"
+                             data-date="${dateStr}">
+                            <span class="day-number">${day}</span>
+                            ${hasAppointments ? `
+                                <div class="appointment-count">${appointmentCount} apt${appointmentCount > 1 ? 's' : ''}</div>
+                                <div class="calendar-badges">${statusBadges}</div>
+                            ` : ''}
+                        </div>
+                    `;
+                }
+                
+                calendarHTML += '</div>';
+                calendarGrid.innerHTML = calendarHTML;
+            }
+            
+            // Get appointments grouped by date for a specific month
+            getAppointmentsByMonth(year, month) {
+                const appointmentsByDate = {};
+                
+                this.appointments.forEach(appointment => {
+                    const appointmentDate = new Date(appointment.date);
+                    if (appointmentDate.getFullYear() === year && appointmentDate.getMonth() === month) {
+                        const dateStr = appointment.date;
+                        if (!appointmentsByDate[dateStr]) {
+                            appointmentsByDate[dateStr] = [];
+                        }
+                        appointmentsByDate[dateStr].push(appointment);
+                    }
+                });
+                
+                return appointmentsByDate;
+            }
+            
+            // Navigate to previous month
+            previousMonth() {
+                this.currentCalendarDate.setMonth(this.currentCalendarDate.getMonth() - 1);
+                this.renderCalendar();
+            }
+            
+            // Navigate to next month
+            nextMonth() {
+                this.currentCalendarDate.setMonth(this.currentCalendarDate.getMonth() + 1);
+                this.renderCalendar();
+            }
+            
+            // Navigate to today
+            goToToday() {
+                this.currentCalendarDate = new Date();
+                this.renderCalendar();
+            }
+            
+            // Show day details modal
+            showDayDetails(dateStr) {
+                const dayAppointments = this.appointments.filter(a => a.date === dateStr);
+                const dateObj = new Date(dateStr);
+                const formattedDate = dateObj.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                
+                // Remove existing modal if any
+                const existingModal = document.getElementById('dayDetailModal');
+                if (existingModal) existingModal.remove();
+                const existingOverlay = document.querySelector('.day-detail-overlay');
+                if (existingOverlay) existingOverlay.remove();
+                
+                // Create overlay
+                const overlay = document.createElement('div');
+                overlay.className = 'day-detail-overlay';
+                overlay.onclick = () => this.closeDayDetails();
+                document.body.appendChild(overlay);
+                
+                // Create modal
+                const modal = document.createElement('div');
+                modal.id = 'dayDetailModal';
+                modal.className = 'day-detail-modal';
+                
+                let appointmentsHTML = '';
+                if (dayAppointments.length === 0) {
+                    appointmentsHTML = `
+                        <div style="text-align: center; padding: 2rem; color: var(--medium-gray);">
+                            <i class="fas fa-calendar-times" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                            <p>No appointments scheduled for this day</p>
+                        </div>
+                    `;
+                } else {
+                    appointmentsHTML = dayAppointments.map(appointment => `
+                        <div class="day-detail-appointment ${appointment.status}">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                                <strong style="font-size: 1rem;">${appointment.name}</strong>
+                                <span class="status-badge" style="background: ${this.getStatusColor(appointment.status)}; color: white; padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 0.7rem;">
+                                    ${appointment.status.toUpperCase()}
+                                </span>
+                            </div>
+                            <div style="font-size: 0.85rem; color: var(--medium-gray); line-height: 1.5;">
+                                <div><i class="fas fa-phone" style="width: 16px;"></i> ${appointment.phone}</div>
+                                <div><i class="fas fa-tooth" style="width: 16px;"></i> ${appointment.service}</div>
+                                <div><i class="fas fa-id-badge" style="width: 16px;"></i> ${appointment.appointmentId || appointment.appointment_id}</div>
+                            </div>
+                            <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                ${appointment.status === 'pending' ? `
+                                    <button onclick="appointmentTracker.updateAppointmentStatus(${appointment.id}, 'confirmed'); appointmentTracker.showDayDetails('${dateStr}');" 
+                                            style="background: #10b981; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                                        <i class="fas fa-check"></i> Confirm
+                                    </button>
+                                    <button onclick="appointmentTracker.updateAppointmentStatus(${appointment.id}, 'cancelled'); appointmentTracker.showDayDetails('${dateStr}');" 
+                                            style="background: #ef4444; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </button>
+                                ` : ''}
+                                ${appointment.status === 'confirmed' ? `
+                                    <button onclick="appointmentTracker.updateAppointmentStatus(${appointment.id}, 'completed'); appointmentTracker.showDayDetails('${dateStr}');" 
+                                            style="background: #6366f1; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                                        <i class="fas fa-check-double"></i> Complete
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `).join('');
+                }
+                
+                modal.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--primary-blue);">
+                        <div>
+                            <h3 style="margin: 0; color: var(--primary-blue);"><i class="fas fa-calendar-day"></i> ${formattedDate}</h3>
+                            <p style="margin: 0.5rem 0 0; color: var(--medium-gray); font-size: 0.9rem;">${dayAppointments.length} appointment${dayAppointments.length !== 1 ? 's' : ''}</p>
+                        </div>
+                        <button onclick="appointmentTracker.closeDayDetails()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--medium-gray);">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div style="max-height: 60vh; overflow-y: auto;">
+                        ${appointmentsHTML}
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+            }
+            
+            // Close day details modal
+            closeDayDetails() {
+                const modal = document.getElementById('dayDetailModal');
+                const overlay = document.querySelector('.day-detail-overlay');
+                if (modal) modal.remove();
+                if (overlay) overlay.remove();
+                this.renderCalendar(); // Refresh calendar to show any status changes
+            }
+
+            // Fallback function for syncLocalToSupabase (will be overridden by SupabaseAppointmentTracker)
+            syncLocalToSupabase() {
+                this.showNotification('Sync not available - Supabase not configured', 'warning');
+            }
+        }
+    </script>
+    
+    <!-- Load Supabase config AFTER AppointmentTracker class is defined -->
+    <script src="supabase-config.js"></script>
+    
+    <script>
+        // Initialize appointment tracker with Supabase
+        let appointmentTracker;
+        let systemReady = false;
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing appointment system...');
+            
+            // Add loading indicator to form button
+            const submitButton = document.getElementById('appointment-submit-btn');
+            if (submitButton) {
+                submitButton.disabled = true;
+            }
+            
+            // Wait a moment for all scripts to load
+            setTimeout(() => {
+                try {
+                    if (typeof SupabaseAppointmentTracker !== 'undefined') {
+                        console.log('✅ SupabaseAppointmentTracker available - initializing with Supabase...');
+                        appointmentTracker = new SupabaseAppointmentTracker();
+                        console.log('appointmentTracker instance:', appointmentTracker);
+                        console.log('appointmentTracker.useDatabase:', appointmentTracker.useDatabase);
+                    } else {
+                        console.log('⚠️ SupabaseAppointmentTracker not available, using local AppointmentTracker...');
+                        appointmentTracker = new AppointmentTracker();
+                    }
+                    
+                    window.appointmentTracker = appointmentTracker;
+                    systemReady = true;
+                    
+                    // Update button to ready state
+                    if (submitButton) {
+                        if (appointmentTracker.useDatabase) {
+                            submitButton.innerHTML = '<i class="fas fa-cloud"></i> Schedule Appointment (Cloud)';
+                            submitButton.style.background = '#10b981'; // Green for cloud
+                        } else {
+                            submitButton.innerHTML = '<i class="fas fa-calendar-check"></i> Schedule Appointment (Local)';
+                            submitButton.style.background = '#f59e0b'; // Orange for local
+                        }
+                        submitButton.disabled = false;
+                    }
+                    
+                    console.log('🎯 Appointment system ready!');
+                    console.log('Database mode:', appointmentTracker.useDatabase ? 'Supabase Cloud' : 'Local Storage');
+                    
+                } catch (error) {
+                    console.error('❌ Error initializing appointment system:', error);
+                    
+                    // Fallback initialization
+                    appointmentTracker = new AppointmentTracker();
+                    window.appointmentTracker = appointmentTracker;
+                    systemReady = true;
+                    
+                    if (submitButton) {
+                        submitButton.innerHTML = '<i class="fas fa-calendar-check"></i> Schedule Appointment (Fallback)';
+                        submitButton.disabled = false;
+                        submitButton.style.background = '#ef4444'; // Red for error fallback
+                    }
+                    
+                    console.log('🔄 Appointment system ready in fallback mode');
+                }
+                
+                // Load testimonials from admin feedback
+                loadTestimonialsFromFeedback();
+                
+            }, 1500); // Wait 1.5 seconds for all scripts to load
+        });
+        
+        // ==================== TESTIMONIALS FROM ADMIN FEEDBACK ====================
+        
+        // Default testimonials to show if no feedback available
+        const defaultTestimonials = [
+            {
+                patientName: "Rajesh Kumar",
+                occupation: "Software Engineer",
+                rating: 5,
+                comments: "The team at Shalom Dental Care made my dental visit so comfortable. The staff was very professional and caring throughout."
+            },
+            {
+                patientName: "Priya Sharma",
+                occupation: "Marketing Manager",
+                rating: 5,
+                comments: "I was terrified of dental procedures, but the team here made me feel at ease. The cosmetic work they did on my teeth has completely transformed my confidence. Highly recommend!"
+            },
+            {
+                patientName: "Arjun Nair",
+                occupation: "Business Owner",
+                rating: 5,
+                comments: "Excellent service and state-of-the-art facilities. My dental procedure was handled with utmost care and precision. The follow-up care has been exceptional as well."
+            },
+            {
+                patientName: "Meera Lal",
+                occupation: "Homemaker",
+                rating: 5,
+                comments: "My children love coming here! The doctor is amazing with kids, and the clinic is so welcoming. They've made dental visits fun rather than scary."
+            },
+            {
+                patientName: "Sunil Krishnan",
+                occupation: "Sales Executive",
+                rating: 5,
+                comments: "Professional, punctual, and pain-free! The teeth whitening treatment gave me the bright smile I always wanted."
+            },
+            {
+                patientName: "Deepika Menon",
+                occupation: "Teacher",
+                rating: 5,
+                comments: "The emergency dental service saved the day when I had a severe toothache on a weekend. They were quick to respond and provided immediate relief. Thank you!"
+            }
+        ];
+        
+        // Load testimonials - tries Supabase first, then localStorage, then defaults
+        async function loadTestimonialsFromFeedback() {
+            const container = document.getElementById('testimonialsGrid');
+            if (!container) {
+                console.error('❌ testimonialsGrid container not found');
+                return;
+            }
+            
+            let testimonials = [];
+            
+            // ── Step 1: Try loading from Supabase (cross-device persistence) ──
+            try {
+                if (typeof SupabaseFeedbackManager !== 'undefined') {
+                    const feedbackMgr = new SupabaseFeedbackManager();
+                    if (feedbackMgr.isConnected) {
+                        console.log('☁️ Attempting to load testimonials from Supabase...');
+                        testimonials = await feedbackMgr.loadHomepageTestimonials();
+                        if (testimonials.length > 0) {
+                            console.log(`✅ Loaded ${testimonials.length} testimonials from Supabase`);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.warn('⚠️ Supabase testimonials load failed, falling back:', e);
+            }
+            
+            // ── Step 2: Fallback to localStorage ──
+            if (testimonials.length === 0) {
+                try {
+                    const feedbackData = localStorage.getItem('dentalFeedback');
+                    console.log('📦 Checking localStorage for feedback:', feedbackData ? 'Found' : 'Not found');
+                    
+                    if (feedbackData) {
+                        const allFeedback = JSON.parse(feedbackData);
+                        console.log(`📋 Total localStorage feedback entries: ${allFeedback.length}`);
+                        
+                        testimonials = allFeedback
+                            .filter(fb => fb.showOnHomepage === true && fb.rating >= 4 && fb.comments && fb.comments.trim() !== '')
+                            .sort((a, b) => b.rating - a.rating || new Date(b.createdAt) - new Date(a.createdAt))
+                            .slice(0, 6);
+                        
+                        if (testimonials.length > 0) {
+                            console.log(`✅ Loaded ${testimonials.length} testimonials from localStorage`);
+                        }
+                    }
+                } catch (e) {
+                    console.error('❌ Error loading localStorage feedback:', e);
+                }
+            }
+            
+            // ── Step 3: Fallback to defaults ──
+            if (testimonials.length === 0) {
+                console.log('ℹ️ No admin feedback available, showing default testimonials');
+                testimonials = defaultTestimonials;
+            }
+            
+            // ── Render testimonials ──
+            renderTestimonials(container, testimonials);
+        }
+        
+        // Render testimonials into the grid
+        function renderTestimonials(container, testimonials) {
+            container.innerHTML = testimonials.map((item, index) => {
+                const name = item.patientName || 'Happy Patient';
+                const initials = getInitials(name);
+                const occupation = item.occupation || item.service || 'Patient';
+                const rating = item.rating || 5;
+                const comment = item.comments;
+                
+                return `
+                    <div class="testimonial fade-in" style="animation-delay: ${index * 0.1}s">
+                        <div class="testimonial-content">
+                            "${comment}"
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">${initials}</div>
+                            <div class="author-info">
+                                <h4>${name}</h4>
+                                <p>${occupation}</p>
+                                <div class="rating">
+                                    ${generateStars(rating)}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Re-apply fade-in animation observer
+            const fadeElements = container.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(el => observer.observe(el));
+        }
+        
+        // Helper: Get initials from name
+        function getInitials(name) {
+            return name.split(' ')
+                .map(word => word.charAt(0).toUpperCase())
+                .slice(0, 2)
+                .join('');
+        }
+        
+        // Helper: Generate star rating HTML
+        function generateStars(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            return stars;
+        }
+    </script>
+</body>
+</html>
