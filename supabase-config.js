@@ -47,7 +47,7 @@ const supabaseConfig = {
     url: getEnvVar('SUPABASE_URL', 'https://tsjgdptgyvqkmgvagsid.supabase.co'),
     
     // Supabase anon/public key (safe for frontend, protected by RLS)
-    anonKey: getEnvVar('SUPABASE_ANON_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzamdkcHRneXZxa21ndmFnc2lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwNDQ5OTgsImV4cCI6MjA4MTYyMDk5OH0.p6vHkCaAMZcIXBykPJE0gTnwPrThC0jrtx4fnicmxKE')
+    anonKey: getEnvVar('SUPABASE_ANON_KEY', 'sb_publishable_jIPiLKPD7K5xBNjfRZUJvQ_yEZJcib4')
 };
 
 // SQL to create the appointments table in Supabase:
