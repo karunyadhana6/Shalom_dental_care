@@ -2615,7 +2615,7 @@
                 if (!currentPassword) return;
 
                 const currentHash = this.hashPassword(currentPassword);
-                const storedHash = localStorage.getItem('adminPasswordHash') || this.hashPassword('admin123');
+                const storedHash = localStorage.getItem('adminPasswordHash') || this.hashPassword('********');
 
                 if (currentHash !== storedHash) {
                     this.showNotification('Current password is incorrect', 'error');
