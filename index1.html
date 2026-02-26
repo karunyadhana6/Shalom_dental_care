@@ -515,21 +515,9 @@
 
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
-        }
-
-        @media (max-width: 1024px) {
-            .team-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 640px) {
-            .team-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         .team-member {
@@ -1239,6 +1227,7 @@
                         <span class="credential-badge">Full Mouth Rehabilitation</span>
                         <span class="credential-badge">Cosmetic Prosthetics</span>
                     </div>
+                    </div>
                 </div>
                 <div class="team-member fade-in">
                     <div class="team-avatar">
@@ -1253,6 +1242,7 @@
                         <span class="credential-badge">Preventive Dentistry</span>
                         <span class="credential-badge">Space Maintainers</span>
                     </div>
+                    </div>
                 </div>
                 <div class="team-member fade-in">
                     <div class="team-avatar">
@@ -1266,6 +1256,7 @@
                         <span class="credential-badge">Wisdom Tooth Surgery</span>
                         <span class="credential-badge">Dental Implants</span>
                         <span class="credential-badge">Facial Trauma Care</span>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -1353,7 +1344,7 @@
                         <i class="fas fa-envelope"></i>
                         <div>
                             <h4>Email</h4>
-                            <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d2a1bab3bebdbfb6b7bca6b3beb1b3a0b7e3eb92b5bfb3bbbefcb1bdbf">[email&#160;protected]</a></p>
+                            <p>shalomdentalcare19@gmail.com</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -1453,7 +1444,7 @@
                     <h3>Contact Info</h3>
                     <p><i class="fas fa-map-marker-alt"></i> 76/2, Gandhi Road, Srinivasa Nagar<br>New Perungalathur, Chennai 600063</p>
                     <p><i class="fas fa-phone"></i> +91 86107 76477</p>
-                    <p><i class="fas fa-envelope"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ef9c878e8380828b8a819b8e838c8e9d8aded6af88828e8683c18c8082">[email&#160;protected]</a></p>
+                    <p><i class="fas fa-envelope"></i> shalomdentalcare19@gmail.com</p>
                     <p><i class="fas fa-clock"></i> Mon-Sat: 9AM-8PM, Sun: 10AM-6PM</p>
                 </div>
             </div>
@@ -1463,7 +1454,7 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -3493,4 +3484,17 @@
         }
         
         // Helper: Generate star rating HTML
-        function gen
+        function generateStars(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            return stars;
+        }
+    </script>
+</body>
+</html>
