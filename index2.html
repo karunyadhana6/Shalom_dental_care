@@ -8,16 +8,7 @@
     <meta name="keywords" content="dental care, dentist Chennai, general dentistry, cosmetic dentistry, emergency dental care, teeth cleaning, dental implants">
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Preconnect to image CDNs for faster load -->
-    <link rel="preconnect" href="https://images.unsplash.com">
-    <link rel="preconnect" href="https://raw.githubusercontent.com">
-    
-    <!-- Theme color for mobile browsers -->
-    <meta name="theme-color" content="#1e3a5f">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -185,15 +176,6 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(30, 58, 95, 0.35);
             background: linear-gradient(135deg, var(--navy-light), var(--navy));
-        }
-
-        /* Header "Book Appointment" — compact size so it fits neatly in the nav bar */
-        #headerBookBtn {
-            padding: 0.5rem 1.1rem;
-            font-size: 0.82rem;
-            letter-spacing: 0.2px;
-            box-shadow: 0 3px 10px rgba(30, 58, 95, 0.2);
-            white-space: nowrap;
         }
 
         /* Hero Section */
@@ -531,257 +513,100 @@
             font-weight: 500;
         }
 
-        /* ── Team Carousel ──────────────────────────────────────────────── */
-        .team-carousel-wrapper {
-            position: relative;
-            margin-top: 2.5rem;
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
-        /* The sliding track */
-        .team-carousel {
-            overflow: hidden;
-            border-radius: 16px;
+        @media (max-width: 1024px) {
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
-        .team-track {
-            display: flex;
-            transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-            will-change: transform;
+        @media (max-width: 640px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        /* Each slide shows 3 cards on desktop, 2 on tablet, 1 on mobile */
         .team-member {
-            flex: 0 0 calc(33.333% - 0.84rem);
-            min-width: 0;
-            margin-right: 1.25rem;
             background: var(--white);
-            padding: 1.4rem 1.5rem;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 2rem;
+            border-radius: 15px;
             text-align: center;
-            gap: 0;
-            box-shadow: 0 4px 20px rgba(30, 58, 95, 0.08);
+            box-shadow: 0 8px 30px rgba(30, 58, 95, 0.06);
+            transition: all 0.3s ease;
             border: 1px solid var(--grey-200);
-            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
         .team-member:hover {
             transform: translateY(-5px);
-            box-shadow: 0 14px 40px rgba(30, 58, 95, 0.14);
-            border-color: var(--primary-blue);
+            box-shadow: 0 15px 45px rgba(30, 58, 95, 0.12);
         }
 
-        /* Avatar */
         .team-avatar {
-            width: 120px;
-            height: 120px;
-            min-width: 120px;
+            width: 180px;
+            height: 180px;
             background: linear-gradient(135deg, var(--navy), var(--primary-blue));
             border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid var(--grey-200);
-            box-shadow: 0 4px 14px rgba(30, 58, 95, 0.16);
-            margin-bottom: 1rem;
-            transition: border-color 0.25s ease;
-        }
-
-        .team-member:hover .team-avatar {
-            border-color: var(--primary-blue);
-        }
-
-        .team-avatar i {
-            font-size: 2.5rem;
-            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 100%;
-            height: 100%;
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+            border: 4px solid var(--grey-200);
+            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.12);
+        }
+
+        .team-avatar i {
+            font-size: 3rem;
+            color: white;
         }
 
         .team-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
         }
 
         .team-avatar img.zoom-in {
-            transform: scale(1.25);
+            transform: scale(1.3);
             object-position: center top;
-        }
-
-        .team-info {
-            width: 100%;
         }
 
         .team-member h3 {
             font-family: var(--font-heading);
             color: var(--navy);
-            font-size: 1rem;
-            margin: 0 0 0.25rem;
-            line-height: 1.3;
+            margin-bottom: 0.5rem;
         }
 
         .team-role {
             color: var(--primary-blue);
             font-weight: 600;
-            font-size: 0.83rem;
-            margin: 0 0 0.5rem;
-        }
-
-        .team-bio {
-            color: var(--grey-600);
-            font-size: 0.8rem;
-            line-height: 1.55;
-            margin: 0 0 0.75rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            margin-bottom: 1rem;
         }
 
         .team-credentials {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.3rem;
+            gap: 0.5rem;
             justify-content: center;
+            margin-top: 1rem;
         }
 
         .credential-badge {
             background: var(--accent-green-light);
             color: var(--accent-green);
-            padding: 0.2rem 0.65rem;
+            padding: 0.25rem 0.75rem;
             border-radius: 20px;
-            font-size: 0.73rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        /* Prev / Next arrow buttons */
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: none;
-            background: var(--white);
-            color: var(--navy);
-            box-shadow: 0 4px 16px rgba(30, 58, 95, 0.18);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            z-index: 10;
-            transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .carousel-btn:hover {
-            background: var(--primary-blue);
-            color: var(--white);
-            box-shadow: 0 6px 20px rgba(30, 58, 95, 0.28);
-        }
-
-        .carousel-btn:disabled {
-            opacity: 0.35;
-            cursor: not-allowed;
-        }
-
-        .carousel-btn-prev { left: -22px; }
-        .carousel-btn-next { right: -22px; }
-
-        /* Dot indicators */
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .carousel-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--grey-200);
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.3s ease, width 0.3s ease;
-            padding: 0;
-        }
-
-        .carousel-dot.active {
-            background: var(--primary-blue);
-            width: 24px;
-            border-radius: 4px;
-        }
-
-        /* Responsive slide widths */
-        @media (max-width: 1024px) {
-            .team-member {
-                flex: 0 0 calc(50% - 0.625rem);
-            }
-        }
-
-        @media (max-width: 640px) {
-            .team-member {
-                flex: 0 0 100%;
-                margin-right: 1.25rem;
-            }
-            .carousel-btn-prev { left: -14px; }
-            .carousel-btn-next { right: -14px; }
+            font-size: 0.8rem;
+            font-weight: 500;
         }
 
         /* Testimonials Section */
-        /* ── Testimonials Tabs ───────────────────────────────────────────── */
-        .review-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 0.75rem;
-            margin-bottom: 2.5rem;
-            flex-wrap: wrap;
-        }
-
-        .review-tab-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.65rem 1.5rem;
-            border-radius: 50px;
-            border: 2px solid var(--grey-200);
-            background: var(--white);
-            color: var(--navy);
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-
-        .review-tab-btn:hover {
-            border-color: var(--primary-blue);
-            color: var(--primary-blue);
-        }
-
-        .review-tab-btn.active {
-            background: var(--primary-blue);
-            border-color: var(--primary-blue);
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(30, 58, 95, 0.22);
-        }
-
-        .review-tab-btn .tab-icon-google {
-            width: 18px;
-            height: 18px;
-        }
-
-        .review-tab-panel { display: none; }
-        .review-tab-panel.active { display: block; }
-
         .testimonials {
             background: var(--light-grey);
         }
@@ -799,12 +624,6 @@
             box-shadow: 0 8px 30px rgba(30, 58, 95, 0.06);
             position: relative;
             border: 1px solid var(--grey-200);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .testimonial:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(30, 58, 95, 0.12);
         }
 
         .testimonial::before {
@@ -841,8 +660,6 @@
             justify-content: center;
             color: var(--primary-blue);
             font-weight: bold;
-            font-size: 1rem;
-            flex-shrink: 0;
         }
 
         .author-info h4 {
@@ -861,105 +678,8 @@
             margin-top: 0.5rem;
         }
 
-        .rating i { color: #fbbf24; }
-
-        /* Google Review card extras */
-        .google-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: #5f6368;
-            background: #f1f3f4;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-            margin-top: 0.4rem;
-        }
-
-        .google-badge svg { width: 12px; height: 12px; }
-
-        /* Google Direct Panel */
-        .google-direct-panel {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.1rem;
-            padding: 3rem 2rem;
-            background: linear-gradient(135deg, #fff 0%, #f8faff 100%);
-            border-radius: 20px;
-            border: 1px solid #e8f0fe;
-            box-shadow: 0 8px 32px rgba(30,58,95,0.08);
-            max-width: 560px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .gdp-logo svg { height: 36px; width: auto; }
-        .gdp-heading {
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: var(--navy);
-            margin: 0;
-        }
-        .gdp-sub {
-            font-size: 0.95rem;
-            color: var(--medium-gray);
-            max-width: 420px;
-            line-height: 1.6;
-            margin: 0;
-        }
-        .gdp-stars {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 1.4rem;
-        }
-        .gdp-stars .fas.fa-star { color: #fbbf24; }
-        .gdp-score {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--navy);
-            margin-left: 6px;
-        }
-        .gdp-count {
-            font-size: 0.9rem;
-            color: var(--medium-gray);
-        }
-        .gdp-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: #4285F4;
-            color: #fff;
-            font-weight: 600;
-            font-size: 1rem;
-            padding: 0.8rem 1.8rem;
-            border-radius: 50px;
-            text-decoration: none;
-            transition: background 0.25s, transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 14px rgba(66,133,244,0.3);
-        }
-        .gdp-btn:hover {
-            background: #3367D6;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(66,133,244,0.4);
-        }
-        .gdp-write-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            color: #4285F4;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-decoration: none;
-            border: 2px solid #4285F4;
-            padding: 0.55rem 1.4rem;
-            border-radius: 50px;
-            transition: background 0.2s, color 0.2s;
-        }
-        .gdp-write-btn:hover {
-            background: #4285F4;
-            color: #fff;
+        .rating i {
+            color: #fbbf24;
         }
 
         /* Emergency Section */
@@ -1216,584 +936,19 @@
             }
         }
 
-        /* Mobile Menu Button */
+        /* Mobile Menu (if needed) */
         .mobile-menu-btn {
             display: none;
             background: none;
-            border: 2px solid var(--grey-200);
-            border-radius: 8px;
-            font-size: 1.25rem;
-            color: var(--navy);
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark-gray);
             cursor: pointer;
-            padding: 0.4rem 0.55rem;
-            z-index: 1001;
-            line-height: 1;
-            transition: background 0.2s, border-color 0.2s;
-            flex-shrink: 0;
-        }
-
-        .mobile-menu-btn:hover {
-            background: var(--primary-blue-light);
-            border-color: var(--primary-blue);
-        }
-
-        /* Mobile nav overlay */
-        .mobile-nav-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.45);
-            z-index: 999;
-            animation: overlayFadeIn 0.25s ease;
-        }
-
-        @keyframes overlayFadeIn {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-        }
-
-        .mobile-nav-overlay.open {
-            display: block;
         }
 
         @media (max-width: 768px) {
-            /* Show hamburger, hide desktop CTA from nav flow */
             .mobile-menu-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            /* Hide the desktop "Book Appointment" CTA button at header level on mobile */
-            #headerBookBtn {
-                display: none;
-            }
-
-            /* Slide-in side drawer */
-            nav {
-                position: fixed;
-                top: 0;
-                right: -300px;
-                width: 300px;
-                height: 100dvh;          /* dynamic viewport height */
-                background: var(--white);
-                box-shadow: -6px 0 30px rgba(30,58,95,0.18);
-                z-index: 1000;
-                transition: right 0.32s cubic-bezier(0.4, 0, 0.2, 1);
-                padding-top: 0;
-                display: flex;
-                flex-direction: column;
-            }
-
-            nav.open {
-                right: 0;
-            }
-
-            /* Drawer header */
-            nav::before {
-                content: 'Menu';
                 display: block;
-                background: linear-gradient(135deg, var(--navy), var(--navy-light));
-                color: white;
-                font-family: var(--font-heading);
-                font-size: 1.1rem;
-                font-weight: 600;
-                padding: 1.2rem 1.5rem;
-                letter-spacing: 0.5px;
-            }
-
-            nav ul {
-                display: flex !important;
-                flex-direction: column;
-                gap: 0;
-                padding: 0.5rem 0;
-                flex: 1;
-                overflow-y: auto;
-                list-style: none;
-            }
-
-            nav ul li a {
-                display: flex;
-                align-items: center;
-                padding: 1rem 1.5rem;
-                border-bottom: 1px solid var(--grey-100);
-                font-size: 1rem;
-                font-weight: 500;
-                color: var(--dark-gray);
-                gap: 0.75rem;
-            }
-
-            nav ul li a:hover {
-                background: var(--primary-blue-light);
-                color: var(--navy);
-                padding-left: 1.75rem;
-            }
-
-            nav ul li a::after {
-                display: none;
-            }
-
-            /* Mobile CTA inside drawer */
-            nav::after {
-                content: '';
-                display: none; /* overridden by the injected button below */
-            }
-
-            /* Mobile Book Appointment CTA pinned at bottom of drawer */
-            .mobile-nav-cta {
-                display: block !important;
-                margin: 1.25rem 1.5rem 2rem;
-                text-align: center;
-            }
-        }
-
-        /* Always hide .mobile-nav-cta on desktop */
-        .mobile-nav-cta {
-            display: none;
-        }
-
-        /* Animated number counter */
-        .stat-number[data-target] {
-            display: inline-block;
-        }
-
-        /* Google Maps embed responsive */
-        .map-container {
-            margin-top: 1.5rem;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--grey-200);
-            box-shadow: 0 4px 15px rgba(30,58,95,0.08);
-        }
-
-        .map-container iframe {
-            width: 100%;
-            height: 200px;
-            border: 0;
-            display: block;
-        }
-
-        /* WhatsApp floating button */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 58px;
-            height: 58px;
-            background: #25d366;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            box-shadow: 0 6px 20px rgba(37,211,102,0.45);
-            z-index: 900;
-            text-decoration: none;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 28px rgba(37,211,102,0.55);
-        }
-
-        /* Social links in footer */
-        .social-links {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .social-link {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.12);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255,255,255,0.85);
-            font-size: 1rem;
-            text-decoration: none;
-            transition: background 0.2s ease, transform 0.2s ease;
-        }
-
-        .social-link:hover {
-            background: var(--secondary-teal);
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        /* Time slot select */
-        .time-hint {
-            font-size: 0.8rem;
-            color: var(--medium-gray);
-            margin-top: 0.3rem;
-        }
-
-        /* ── Nav close button (injected by JS inside drawer) ── */
-        .nav-close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            font-size: 1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
-        }
-
-        .nav-close-btn:hover {
-            background: rgba(255,255,255,0.35);
-        }
-
-        /* ── Availability / Calendar Section ─────────────────────────── */
-        .availability-section {
-            background: linear-gradient(135deg, var(--white) 0%, var(--light-grey) 100%);
-        }
-
-        .avail-wrapper {
-            display: grid;
-            grid-template-columns: 360px 1fr;
-            gap: 2.5rem;
-            align-items: start;
-        }
-
-        /* Calendar panel */
-        .avail-calendar-panel {
-            background: var(--white);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(30,58,95,0.09);
-            border: 1px solid var(--grey-200);
-            padding: 1.5rem;
-        }
-
-        .avail-cal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1.25rem;
-        }
-
-        .avail-month-label {
-            font-family: var(--font-heading);
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: var(--navy);
-        }
-
-        .avail-nav-btn {
-            background: var(--primary-blue-light);
-            border: none;
-            color: var(--navy);
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s, transform 0.15s;
-        }
-
-        .avail-nav-btn:hover {
-            background: var(--primary-blue);
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .avail-nav-btn:disabled {
-            opacity: 0.35;
-            cursor: default;
-            transform: none;
-        }
-
-        .avail-weekdays {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            text-align: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .avail-weekdays span {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--medium-gray);
-            padding: 0.4rem 0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .avail-days {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-        }
-
-        .avail-day {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            font-size: 0.88rem;
-            font-weight: 500;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.18s ease;
-            border: 2px solid transparent;
-            color: var(--dark-gray);
-        }
-
-        .avail-day.empty {
-            cursor: default;
-        }
-
-        .avail-day.past {
-            color: var(--grey-300);
-            cursor: not-allowed;
-        }
-
-        .avail-day.sunday-closed {
-            background: #fef2f2;
-            color: #fca5a5;
-            cursor: not-allowed;
-        }
-
-        /* Availability states */
-        .avail-day.avail-open {
-            background: #ecfdf5;
-            color: #065f46;
-        }
-
-        .avail-day.avail-open:hover, .avail-day.avail-open:focus {
-            background: #10b981;
-            color: white;
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(16,185,129,0.35);
-        }
-
-        .avail-day.avail-limited {
-            background: #fffbeb;
-            color: #92400e;
-        }
-
-        .avail-day.avail-limited:hover, .avail-day.avail-limited:focus {
-            background: #f59e0b;
-            color: white;
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(245,158,11,0.35);
-        }
-
-        .avail-day.avail-closed {
-            background: #fef2f2;
-            color: #fca5a5;
-            cursor: not-allowed;
-        }
-
-        .avail-day.today-marker {
-            border-color: var(--primary-blue);
-            font-weight: 800;
-        }
-
-        .avail-day.selected {
-            background: var(--navy) !important;
-            color: white !important;
-            border-color: var(--navy) !important;
-            transform: scale(1.12) !important;
-            box-shadow: 0 6px 18px rgba(30,58,95,0.35) !important;
-        }
-
-        /* Legend */
-        .avail-legend {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 1.25rem;
-            font-size: 0.78rem;
-            color: var(--medium-gray);
-            flex-wrap: wrap;
-        }
-
-        .avail-legend-dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 4px;
-        }
-
-        .avail-dot-open    { background: #10b981; }
-        .avail-dot-limited { background: #f59e0b; }
-        .avail-dot-closed  { background: #fca5a5; }
-
-        /* Slots panel */
-        .avail-slots-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-        }
-
-        .avail-slots-heading {
-            display: flex;
-            align-items: center;
-            gap: 0.65rem;
-            font-family: var(--font-heading);
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--navy);
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid var(--grey-100);
-        }
-
-        .avail-slots-heading i {
-            color: var(--primary-blue);
-        }
-
-        .avail-slots-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 0.65rem;
-            min-height: 120px;
-        }
-
-        .avail-slots-placeholder {
-            grid-column: 1 / -1;
-            text-align: center;
-            color: var(--medium-gray);
-            padding: 2rem 1rem;
-            opacity: 0.7;
-        }
-
-        .avail-slots-placeholder i {
-            font-size: 2.5rem;
-            margin-bottom: 0.75rem;
-            display: block;
-            color: var(--grey-300);
-        }
-
-        .avail-slot-btn {
-            padding: 0.65rem 0.5rem;
-            border-radius: 10px;
-            border: 2px solid var(--grey-200);
-            background: var(--white);
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--navy);
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-        }
-
-        .avail-slot-btn .slot-time {
-            font-size: 0.9rem;
-        }
-
-        .avail-slot-btn .slot-status {
-            font-size: 0.68rem;
-            font-weight: 500;
-        }
-
-        .avail-slot-btn.slot-open {
-            border-color: #10b981;
-            color: #065f46;
-            background: #f0fdf4;
-        }
-
-        .avail-slot-btn.slot-open:hover {
-            background: #10b981;
-            color: white;
-            border-color: #10b981;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(16,185,129,0.3);
-        }
-
-        .avail-slot-btn.slot-limited {
-            border-color: #f59e0b;
-            color: #92400e;
-            background: #fffbeb;
-        }
-
-        .avail-slot-btn.slot-limited:hover {
-            background: #f59e0b;
-            color: white;
-            border-color: #f59e0b;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(245,158,11,0.3);
-        }
-
-        .avail-slot-btn.slot-full {
-            opacity: 0.45;
-            cursor: not-allowed;
-            background: var(--grey-100);
-            border-color: var(--grey-200);
-            color: var(--medium-gray);
-        }
-
-        .avail-slot-btn.slot-selected {
-            background: var(--navy) !important;
-            color: white !important;
-            border-color: var(--navy) !important;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(30,58,95,0.35);
-        }
-
-        /* Info box & CTA */
-        .avail-info-box {
-            display: flex;
-            gap: 0.75rem;
-            background: var(--primary-blue-light);
-            border: 1px solid var(--grey-200);
-            border-radius: 12px;
-            padding: 1rem 1.25rem;
-            font-size: 0.85rem;
-            color: var(--navy);
-            line-height: 1.55;
-        }
-
-        .avail-info-box i {
-            color: var(--primary-blue);
-            font-size: 1.1rem;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .avail-book-cta {
-            font-size: 1.05rem;
-            padding: 0.9rem 2rem;
-            text-align: center;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        @media (max-width: 900px) {
-            .avail-wrapper {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .avail-day {
-                font-size: 0.78rem;
-                border-radius: 7px;
-            }
-            .avail-slots-grid {
-                grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
             }
         }
     </style>
@@ -1804,7 +959,7 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <img src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/shalom_dental_logo.png" alt="Shalom Dental Care Logo" class="logo-icon" loading="lazy" width="45" height="45">
+                    <img src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/shalom_dental_logo.png" alt="Shalom Dental Care Logo" class="logo-icon">
                     <div class="logo-text">
                         Shalom Dental Care
                         <span class="logo-tagline">"I will restore you to health and heal your wounds"</span>
@@ -1816,29 +971,26 @@
                         <li><a href="#about">About</a></li>
                         <li><a href="#team">Our Team</a></li>
                         <li><a href="#testimonials">Testimonials</a></li>
-                        <li><a href="#availability">Availability</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
-                    <!-- Mobile-only "Book Appointment" CTA pinned at bottom of drawer -->
-                    <a href="#appointment" class="cta-button mobile-nav-cta">
-                        <i class="fas fa-calendar-check"></i> Book Appointment
-                    </a>
                 </nav>
-                <a href="#appointment" class="cta-button" id="headerBookBtn">Book Appointment</a>
-                <button class="mobile-menu-btn" id="mobileMenuToggle" aria-label="Open menu">
+                <a href="#appointment" class="cta-button">Book Appointment</a>
+                <button class="mobile-menu-btn">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
         </div>
     </header>
-    <!-- Mobile nav overlay -->
-    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text fade-in">
+                    <div class="hero-badge">
+                        <i class="fas fa-check-circle"></i>
+                        Trusted by 5,000+ Patients in Chennai
+                    </div>
                     <h1>Your Smile Deserves <span>World-Class</span> Dental Care</h1>
                     <p>Experience comprehensive dental care with our experienced team of professionals. From routine cleanings to advanced cosmetic procedures, we're committed to helping you achieve optimal oral health and a confident smile.</p>
                     <div class="hero-buttons">
@@ -1861,7 +1013,7 @@
                     </div>
                 </div>
                 <div class="hero-image fade-in">
-                    <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=800&q=85" alt="Professional dentist providing expert care to a patient in a modern dental clinic" loading="eager" width="800" height="600">
+                    <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=800&q=85" alt="Professional dentist providing expert care to a patient in a modern dental clinic">
                     <div class="hero-image-badge">
                         <div class="badge-icon">
                             <i class="fas fa-smile-beam"></i>
@@ -1999,15 +1151,15 @@
                     
                     <div class="about-stats">
                         <div class="stat">
-                            <span class="stat-number" data-target="5000" data-suffix="+">5000+</span>
+                            <span class="stat-number">5000+</span>
                             <span class="stat-label">Happy Patients</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-number" data-target="10" data-suffix="+">10+</span>
+                            <span class="stat-number">10+</span>
                             <span class="stat-label">Years Experience</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-number" data-target="15" data-suffix="+">15+</span>
+                            <span class="stat-number">15+</span>
                             <span class="stat-label">Services Offered</span>
                         </div>
                         <div class="stat">
@@ -2017,7 +1169,7 @@
                     </div>
                 </div>
                 <div class="hero-image fade-in">
-                    <img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?auto=format&fit=crop&w=800&q=85" alt="State-of-the-art dental clinic with modern equipment" loading="lazy" width="800" height="600">
+                    <img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?auto=format&fit=crop&w=800&q=85" alt="State-of-the-art dental clinic with modern equipment">
                 </div>
             </div>
         </div>
@@ -2030,156 +1182,93 @@
                 <h2>Meet Our Expert Dental Team</h2>
                 <p>Our experienced professionals are dedicated to providing you with the highest quality dental care in a comfortable and welcoming environment.</p>
             </div>
-
-            <!-- Carousel wrapper -->
-            <div class="team-carousel-wrapper fade-in">
-                <!-- Prev button -->
-                <button class="carousel-btn carousel-btn-prev" id="teamPrev" aria-label="Previous doctor">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-
-                <!-- Sliding viewport -->
-                <div class="team-carousel" id="teamCarousel">
-                    <div class="team-track" id="teamTrack">
-
-                        <!-- 1 -->
-                        <div class="team-member">
-                            <div class="team-avatar">
-                                <img src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/Melba1.jpeg" alt="Dr. Melba Grace P., BDS - Chief Dental Surgeon" class="zoom-in" loading="lazy" width="300" height="300">
-                            </div>
-                            <div class="team-info">
-                                <h3>Dr. Melba Grace P. BDS</h3>
-                                <p class="team-role">Chief Dental Surgeon</p>
-                                <p class="team-bio">Practiced in CMC Vellore with extensive experience in comprehensive dental care, patient comfort, and advanced dental technology.</p>
-                                <div class="team-credentials">
-                                    <span class="credential-badge">BDS (CMC Vellore)</span>
-                                    <span class="credential-badge">Chief Surgeon</span>
-                                    <span class="credential-badge">Family Dentistry</span>
-                                    <span class="credential-badge">Smile Design</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 2 -->
-                        <div class="team-member">
-                            <div class="team-avatar">
-                                <img src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/Vidya.jpeg" alt="Dr. Vidyasree, MDS - Orthodontist" loading="lazy" width="300" height="300">
-                            </div>
-                            <div class="team-info">
-                                <h3>Dr. Vidyasree MDS</h3>
-                                <p class="team-role">Orthodontist</p>
-                                <p class="team-bio">Specialist in orthodontics and dentofacial orthopedics, providing advanced treatments like Aligners and personalized braces for perfect smiles.</p>
-                                <div class="team-credentials">
-                                    <span class="credential-badge">MDS Orthodontics</span>
-                                    <span class="credential-badge">Aligner Specialist</span>
-                                    <span class="credential-badge">Bite Correction</span>
-                                    <span class="credential-badge">Braces Expert</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 3 -->
-                        <div class="team-member">
-                            <div class="team-avatar">
-                                <img src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/Gowtham.jpeg" alt="Dr. Gowtham, MDS - Endodontist" loading="lazy" width="300" height="300">
-                            </div>
-                            <div class="team-info">
-                                <h3>Dr. Gowtham MDS</h3>
-                                <p class="team-role">Endodontist &amp; Conservative Dentist</p>
-                                <p class="team-bio">Expert in single-visit root canals, restorative dentistry, and minimally invasive treatments.</p>
-                                <div class="team-credentials">
-                                    <span class="credential-badge">MDS Endodontics</span>
-                                    <span class="credential-badge">Root Canal Expert</span>
-                                    <span class="credential-badge">Restorations</span>
-                                    <span class="credential-badge">Microdentistry</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 4 -->
-                        <div class="team-member">
-                            <div class="team-avatar">
-                                <img src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/Arun.jpeg" alt="Dr. Arun Prasad - Prosthodontist" loading="lazy" width="300" height="300">
-                            </div>
-                            <div class="team-info">
-                                <h3>Dr. Arun Prasad</h3>
-                                <p class="team-role">Prosthodontist &amp; Implant Specialist</p>
-                                <p class="team-bio">Expert in crowns, bridges, dentures, dental implants, and full-mouth rehabilitation with advanced cosmetic solutions.</p>
-                                <div class="team-credentials">
-                                    <span class="credential-badge">MDS Prosthodontics</span>
-                                    <span class="credential-badge">Dental Implants</span>
-                                    <span class="credential-badge">Full Mouth Rehab</span>
-                                    <span class="credential-badge">Cosmetic Prosthetics</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 5 -->
-                        <div class="team-member">
-                            <div class="team-avatar">
-                                <img src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/Gemima.jpeg" alt="Dr. Gemmima Mathews - Pedodontist" loading="lazy" width="300" height="300">
-                            </div>
-                            <div class="team-info">
-                                <h3>Dr. Gemmima Mathews</h3>
-                                <p class="team-role">Pedodontist &amp; Pediatric Dentist</p>
-                                <p class="team-bio">Specialist in comprehensive dental care for children and adolescents — preventive dentistry, habit correction, and early orthodontic guidance.</p>
-                                <div class="team-credentials">
-                                    <span class="credential-badge">MDS Pedodontics</span>
-                                    <span class="credential-badge">Child-Friendly Care</span>
-                                    <span class="credential-badge">Preventive Dentistry</span>
-                                    <span class="credential-badge">Space Maintainers</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 6 -->
-                        <div class="team-member">
-                            <div class="team-avatar">
-                                <img src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/Nachiappan.jpeg" alt="Dr. S. Nachiappan - Oral & Maxillofacial Surgeon" loading="lazy" width="300" height="300">
-                            </div>
-                            <div class="team-info">
-                                <h3>Dr. S. Nachiappan</h3>
-                                <p class="team-role">Oral &amp; Maxillofacial Surgeon</p>
-                                <p class="team-bio">Specialist in wisdom tooth removal, dental implants, facial trauma, corrective jaw surgeries, and advanced oral pathology management.</p>
-                                <div class="team-credentials">
-                                    <span class="credential-badge">MDS Oral Surgery</span>
-                                    <span class="credential-badge">Wisdom Tooth Surgery</span>
-                                    <span class="credential-badge">Dental Implants</span>
-                                    <span class="credential-badge">Facial Trauma Care</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 7 — Uncomment and fill in when ready -->
-                        <!--
-                        <div class="team-member">
-                            <div class="team-avatar">
-                                <img src="PATH_TO_PHOTO.jpeg" alt="Dr. New Doctor">
-                            </div>
-                            <div class="team-info">
-                                <h3>Dr. New Doctor</h3>
-                                <p class="team-role">Specialty Title</p>
-                                <p class="team-bio">Short bio goes here.</p>
-                                <div class="team-credentials">
-                                    <span class="credential-badge">Badge 1</span>
-                                    <span class="credential-badge">Badge 2</span>
-                                </div>
-                            </div>
-                        </div>
-                        -->
-
-                    </div><!-- /team-track -->
-                </div><!-- /team-carousel -->
-
-                <!-- Next button -->
-                <button class="carousel-btn carousel-btn-next" id="teamNext" aria-label="Next doctor">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div><!-- /team-carousel-wrapper -->
-
-            <!-- Dot indicators -->
-            <div class="carousel-dots" id="teamDots" aria-label="Team carousel indicators"></div>
-
+            <div class="team-grid">
+                <div class="team-member fade-in">
+                    <div class="team-avatar">
+                        <img src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/Melba1.jpeg" alt="Dr. Melba Grace P., BDS - Chief Dental Surgeon at Shalom Dental Care" class="zoom-in">
+                    </div>
+                    <h3>Dr. Melba Grace P. BDS</h3>
+                    <p class="team-role">Chief Dental Surgeon</p>
+                    <p>Practiced in CMC Vellore with extensive experience in comprehensive dental care, patient comfort, and advanced dental technology.</p>
+                    <div class="team-credentials">
+                        <span class="credential-badge">BDS (CMC Vellore)</span>
+                        <span class="credential-badge">Chief Surgeon</span>
+                        <span class="credential-badge">Family Dentistry</span>
+                        <span class="credential-badge">Smile Design</span>
+                    </div>
+                </div>
+                
+                <div class="team-member fade-in">
+                    <div class="team-avatar">
+                        <img src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/Vidya.jpeg" alt="Dr. Vidyasree, MDS - Orthodontist and Cosmetic Specialist at Shalom Dental Care">
+                    </div>
+                    <h3>Dr. Vidyasree MDS</h3>
+                    <p class="team-role">Orthodontist</p>
+                    <p>Specialist in orthodontics and dentofacial orthopedics, providing advanced treatments like Aligners and personalized braces for perfect smiles.</p>
+                    <div class="team-credentials">
+                        <span class="credential-badge">MDS Orthodontics</span>
+                        <span class="credential-badge">Aligner Specialist</span>
+                        <span class="credential-badge">Bite Correction</span>
+                        <span class="credential-badge">Braces Expert</span>
+                    </div>
+                </div>
+                <div class="team-member fade-in">
+                    <div class="team-avatar">
+                        <img src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/Gowtham.jpeg" alt="Dr. Gowtham, MDS - Endodontist and Conservative Dentist at Shalom Dental Care">
+                    </div>
+                    <h3>Dr. Gowtham MDS</h3>
+                    <p class="team-role">Endodontist & Conservative Dentist</p>
+                    <p>Expert in single-visit root canals, restorative dentistry, and minimally invasive treatments.</p>
+                    <div class="team-credentials">
+                        <span class="credential-badge">MDS Endodontics</span>
+                        <span class="credential-badge">Root Canal Expert</span>
+                        <span class="credential-badge">Restorations</span>
+                        <span class="credential-badge">Microdentistry</span>
+                    </div>
+                </div>
+                <div class="team-member fade-in">
+                    <div class="team-avatar">
+                        <img src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/Arun.jpeg" alt="Dr. Arun Prasad">
+                    </div>
+                    <h3>Dr. Arun Prasad</h3>
+                    <p class="team-role">Prosthodontist & Implant Specialist</p>
+                    <p>Expert in crowns, bridges, dentures, dental implants, and full-mouth rehabilitation. Specializes in restoring smiles with advanced prosthetic and cosmetic dental solutions.</p>
+                    <div class="team-credentials">
+                        <span class="credential-badge">MDS Prosthodontics</span>
+                        <span class="credential-badge">Dental Implants</span>
+                        <span class="credential-badge">Full Mouth Rehabilitation</span>
+                        <span class="credential-badge">Cosmetic Prosthetics</span>
+                    </div>
+                </div>
+                <div class="team-member fade-in">
+                    <div class="team-avatar">
+                        <img src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/Gemima.jpeg" alt="Dr.Gemmima Mathews,Pedodontist">
+                    </div>
+                    <h3>Dr.Gemmima Mathews </h3>
+                    <p class="team-role">Pedodontist & Pediatric Dentist</p>
+                    <p>Specialist in comprehensive dental care for infants, children, and adolescents. Expert in preventive dentistry, child-friendly treatments, habit correction, and early orthodontic guidance.</p>
+                    <div class="team-credentials">
+                        <span class="credential-badge">MDS Pedodontics</span>
+                        <span class="credential-badge">Child-Friendly Care</span>
+                        <span class="credential-badge">Preventive Dentistry</span>
+                        <span class="credential-badge">Space Maintainers</span>
+                    </div>
+                </div>
+                <div class="team-member fade-in">
+                    <div class="team-avatar">
+                        <img src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/Nachiappan.jpeg" alt="Dr.Nachiappan ,Oral & Maxillofacial Surgeon">
+                    </div>
+                    <h3>Dr.S.Nachiappan</h3>
+                    <p class="team-role">Oral & Maxillofacial Surgeon</p>
+                    <p>Specialist in complex tooth extractions, wisdom tooth removal, dental implants, facial trauma management, and corrective jaw surgeries. Experienced in managing oral pathologies and performing advanced surgical procedures with precision and patient-focused care.</p>
+                    <div class="team-credentials">
+                        <span class="credential-badge">MDS Oral & Maxillofacial Surgery</span>
+                        <span class="credential-badge">Wisdom Tooth Surgery</span>
+                        <span class="credential-badge">Dental Implants</span>
+                        <span class="credential-badge">Facial Trauma Care</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -2188,70 +1277,11 @@
         <div class="container">
             <div class="section-header fade-in">
                 <h2>What Our Patients Say</h2>
-                <p>Don't just take our word for it — hear directly from patients who trust Shalom Dental Care.</p>
+                <p>Don't just take our word for it - hear from our satisfied patients about their experience with our dental care.</p>
             </div>
-
-            <!-- Tab switcher -->
-            <div class="review-tabs fade-in">
-                <button class="review-tab-btn active" data-tab="feedback" id="tabFeedback">
-                    <i class="fas fa-comment-dots"></i> Patient Feedback
-                </button>
-                <button class="review-tab-btn" data-tab="google" id="tabGoogle">
-                    <!-- Google "G" SVG logo -->
-                    <svg class="tab-icon-google" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512" aria-hidden="true">
-                        <path fill="#4285F4" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/>
-                    </svg>
-                    Google Reviews
-                </button>
-            </div>
-
-            <!-- Panel 1: existing patient feedback -->
-            <div class="review-tab-panel active" id="panelFeedback">
-                <div class="testimonials-grid" id="testimonialsGrid">
-                    <!-- Loaded dynamically from admin feedback / Supabase / defaults -->
-                </div>
-            </div>
-
-            <!-- Panel 2: Google Reviews -->
-            <div class="review-tab-panel" id="panelGoogle">
-                <div class="google-direct-panel fade-in">
-                    <!-- Google logo -->
-                    <div class="gdp-logo">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 272 92" aria-label="Google" role="img">
-                            <path fill="#4285F4" d="M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18S71.25 59.95 71.25 47.18c0-12.86 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44S80.99 39.2 80.99 47.18c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/>
-                            <path fill="#EA4335" d="M163.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.85 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/>
-                            <path fill="#FBBC05" d="M209.75 26.34v39.82c0 16.38-9.66 23.07-21.08 23.07-10.75 0-17.22-7.19-19.66-13.07l8.48-3.53c1.51 3.61 5.21 7.87 11.17 7.87 7.31 0 11.84-4.51 11.84-13v-3.19h-.34c-2.18 2.69-6.38 5.04-11.68 5.04-11.09 0-21.25-9.66-21.25-22.09 0-12.52 10.16-22.26 21.25-22.26 5.29 0 9.49 2.35 11.68 4.96h.34v-3.61h9.25zm-8.56 20.92c0-7.81-5.21-13.52-11.84-13.52-6.72 0-12.35 5.71-12.35 13.52 0 7.73 5.63 13.36 12.35 13.36 6.63 0 11.84-5.63 11.84-13.36z"/>
-                            <path fill="#34A853" d="M225 3v65h-9.5V3h9.5z"/>
-                            <path fill="#EA4335" d="M262.02 54.48l7.56 5.04c-2.44 3.61-8.32 9.83-18.48 9.83-12.6 0-22.01-9.74-22.01-22.18 0-13.19 9.49-22.18 20.92-22.18 11.51 0 17.14 9.16 18.98 14.11l1.01 2.52-29.65 12.28c2.27 4.45 5.8 6.72 10.75 6.72 4.96 0 8.4-2.44 10.92-6.14zm-23.27-7.98l19.82-8.23c-1.09-2.77-4.37-4.7-8.23-4.7-4.95 0-11.84 4.37-11.59 12.93z"/>
-                            <path fill="#4285F4" d="M35.29 41.41V32h31.36c.31 1.64.47 3.58.47 5.68 0 7.06-1.93 15.79-8.15 22.01-6.05 6.3-13.78 9.66-24.02 9.66C16.32 69.35.36 53.89.36 35.29.36 16.69 16.32 1.23 34.95 1.23c10.5 0 17.98 4.12 23.6 9.49l-6.64 6.64c-4.03-3.78-9.49-6.72-16.97-6.72-13.86 0-24.7 11.17-24.7 25.03 0 13.86 10.84 25.03 24.7 25.03 8.99 0 14.11-3.61 17.39-6.89 2.66-2.66 4.41-6.48 5.1-11.69l-22.14.29z"/>
-                        </svg>
-                    </div>
-
-                    <h3 class="gdp-heading">See What Our Patients Say on Google</h3>
-                    <p class="gdp-sub">We don't display copied reviews here — read genuine, unfiltered reviews directly on our Google Maps listing.</p>
-
-                    <!-- Star display -->
-                    <div class="gdp-stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        <span class="gdp-score">4.9</span>
-                        <span class="gdp-count">· 500+ reviews</span>
-                    </div>
-
-                    <!-- CTA -->
-                    <a href="https://www.google.com/maps/place/Shalom+Dental+Care/@12.8941756,80.1101216,17z/data=!4m6!3m5!1s0x3a5259ea765cba5b:0xdbd0150a0b844831!8m2!3d12.8941756!4d80.1101216!16s%2Fg%2F11m9_88_sq?entry=ttu"
-                       target="_blank" rel="noopener" class="gdp-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512" aria-hidden="true" style="width:18px;height:18px;flex-shrink:0;">
-                            <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/>
-                        </svg>
-                        Read All Reviews on Google Maps
-                    </a>
-
-                    <!-- Write a review CTA -->
-                    <a href="https://www.google.com/maps/place/Shalom+Dental+Care/@12.8941756,80.1101216,17z/data=!4m6!3m5!1s0x3a5259ea765cba5b:0xdbd0150a0b844831!8m2!3d12.8941756!4d80.1101216!16s%2Fg%2F11m9_88_sq?entry=ttu"
-                       target="_blank" rel="noopener" class="gdp-write-btn">
-                        <i class="fas fa-pen"></i> Write a Review
-                    </a>
-                </div>
+            <div class="testimonials-grid" id="testimonialsGrid">
+                <!-- Testimonials will be loaded dynamically from admin feedback -->
+                <!-- Default testimonials shown if no feedback available -->
             </div>
         </div>
     </section>
@@ -2293,73 +1323,6 @@
         </div>
     </section>
 
-    <!-- ══════════════════════════════════════════════════════════════
-         Appointment Availability Section
-    ══════════════════════════════════════════════════════════════ -->
-    <section id="availability" class="section availability-section">
-        <div class="container">
-            <div class="section-header fade-in">
-                <h2>Check Availability & Book</h2>
-                <p>Pick a date, view open time slots, and jump straight to booking — quick and simple.</p>
-            </div>
-
-            <div class="avail-wrapper fade-in">
-                <!-- Left: mini calendar picker -->
-                <div class="avail-calendar-panel">
-                    <div class="avail-cal-header">
-                        <button class="avail-nav-btn" id="availPrev" aria-label="Previous month">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <span class="avail-month-label" id="availMonthLabel">March 2026</span>
-                        <button class="avail-nav-btn" id="availNext" aria-label="Next month">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-
-                    <div class="avail-weekdays">
-                        <span>Su</span><span>Mo</span><span>Tu</span><span>We</span>
-                        <span>Th</span><span>Fr</span><span>Sa</span>
-                    </div>
-                    <div class="avail-days" id="availDaysGrid"></div>
-
-                    <div class="avail-legend">
-                        <span class="avail-legend-dot avail-dot-open"></span> Available
-                        <span class="avail-legend-dot avail-dot-limited"></span> Limited
-                        <span class="avail-legend-dot avail-dot-closed"></span> Closed
-                    </div>
-                </div>
-
-                <!-- Right: time slot list + quick CTA -->
-                <div class="avail-slots-panel">
-                    <div class="avail-slots-heading">
-                        <i class="fas fa-clock"></i>
-                        <span id="availSelectedDateLabel">Select a date to see available slots</span>
-                    </div>
-
-                    <div class="avail-slots-grid" id="availSlotsGrid">
-                        <div class="avail-slots-placeholder">
-                            <i class="fas fa-calendar-day"></i>
-                            <p>Choose a date on the calendar to see available time slots.</p>
-                        </div>
-                    </div>
-
-                    <div class="avail-info-box">
-                        <i class="fas fa-info-circle"></i>
-                        <div>
-                            <strong>Clinic Hours</strong><br>
-                            Mon–Sat: 9 AM–2 PM &amp; 4–9 PM &nbsp;|&nbsp; Sunday: 4–9 PM<br>
-                            <em>Slot availability updates in real time as bookings come in.</em>
-                        </div>
-                    </div>
-
-                    <a href="#appointment" class="cta-button avail-book-cta" id="availBookBtn">
-                        <i class="fas fa-calendar-check"></i> Book This Slot
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Contact & Appointment Section -->
     <section id="appointment" class="section appointment">
         <!-- Also serve as contact anchor -->
@@ -2390,47 +1353,14 @@
                         <i class="fas fa-envelope"></i>
                         <div>
                             <h4>Email</h4>
-                            <p><a href="mailto:shalomdentalcare19@gmail.com">shalomdentalcare19@gmail.com</a></p>
+                            <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d2a1bab3bebdbfb6b7bca6b3beb1b3a0b7e3eb92b5bfb3bbbefcb1bdbf">[email&#160;protected]</a></p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-clock"></i>
                         <div>
                             <h4>Hours</h4>
-                            <p>Mon–Sat: 9:00 AM–2:00 PM, 4:00–9:00 PM<br>Sunday: 4:00–9:00 PM</p>
-                        </div>
-                    </div>
-                    <!-- Google Maps Embed -->
-                    <div class="map-container">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.0!2d80.1075467!3d12.8941756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDUzJzM5LjAiTiA4MMKwMDYnMjcuMiJF!5e0!3m2!1sen!2sin!4v1741257600000!5m2!1sen!2sin"
-                            allowfullscreen=""
-                            loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"
-                            title="Shalom Dental Care - 76/2, Gandhi Rd, Srinivas Nagar, New Perungalathur, Chennai 600063">
-                        </iframe>
-                    </div>
-                    <a href="https://www.google.com/maps?q=12.8941756,80.1075467"
-                       target="_blank" rel="noopener"
-                       style="display:inline-flex; align-items:center; gap:0.4rem; margin-top:0.75rem; font-size:0.9rem; color:var(--navy); font-weight:600; text-decoration:none;">
-                        <i class="fas fa-directions"></i> Get Directions on Google Maps
-                    </a>
-                    <!-- Social Media Links -->
-                    <div style="margin-top:1.5rem;">
-                        <p style="color:var(--navy); font-weight:600; margin-bottom:0.5rem;">Follow Us</p>
-                        <div class="social-links" style="--link-color: var(--navy);">
-                            <a href="https://wa.me/918610776477" target="_blank" rel="noopener" class="social-link" style="background:var(--accent-green-light); color:var(--accent-green);" title="WhatsApp">
-                                <i class="fab fa-whatsapp"></i>
-                            </a>
-                            <a href="https://www.instagram.com/shalomdental" target="_blank" rel="noopener" class="social-link" style="background:#fce4ec; color:#e91e8c;" title="Instagram">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a href="https://www.facebook.com/shalomdental" target="_blank" rel="noopener" class="social-link" style="background:#e8f0fe; color:#1877f2;" title="Facebook">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="https://www.google.com/maps/place/Shalom+Dental+Care/@12.8941756,80.1101216,17z/data=!4m6!3m5!1s0x3a5259ea765cba5b:0xdbd0150a0b844831!8m2!3d12.8941756!4d80.1101216!16s%2Fg%2F11m9_88_sq?entry=ttu" target="_blank" rel="noopener" class="social-link" style="background:#fce8e6; color:#ea4335;" title="Google Review">
-                                <i class="fab fa-google"></i>
-                            </a>
+                            <p>Monday - Saturday: 9:00 AM - 8:00 PM<br>Sunday: 10:00 AM - 6:00 PM</p>
                         </div>
                     </div>
                 </div>
@@ -2471,28 +1401,11 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="time">Preferred Time Slot</label>
-                            <select id="time" name="time">
-                                <option value="">Any time</option>
-                                <option value="09:00">9:00 AM – 10:00 AM</option>
-                                <option value="10:00">10:00 AM – 11:00 AM</option>
-                                <option value="11:00">11:00 AM – 12:00 PM</option>
-                                <option value="12:00">12:00 PM – 1:00 PM</option>
-                                <option value="14:00">2:00 PM – 3:00 PM</option>
-                                <option value="15:00">3:00 PM – 4:00 PM</option>
-                                <option value="16:00">4:00 PM – 5:00 PM</option>
-                                <option value="17:00">5:00 PM – 6:00 PM</option>
-                                <option value="18:00">6:00 PM – 7:00 PM</option>
-                                <option value="19:00">7:00 PM – 8:00 PM</option>
-                            </select>
-                            <p class="time-hint"><i class="fas fa-info-circle"></i> We'll confirm the final time when we call you.</p>
-                        </div>
-                        <div class="form-group">
                             <label for="message">Additional Notes</label>
                             <textarea id="message" name="message" rows="4" placeholder="Any specific concerns or questions?"></textarea>
                         </div>
                         <button type="submit" class="cta-button" style="width: 100%;" id="appointment-submit-btn">
-                            <i class="fas fa-calendar-check"></i> Schedule Appointment
+                            <i class="fas fa-spinner fa-spin"></i> Loading System...
                         </button>
                     </form>
                 </div>
@@ -2514,20 +1427,6 @@
                         <i class="fas fa-star" style="color: #fbbf24;"></i>
                         <i class="fas fa-star" style="color: #fbbf24;"></i>
                         <span style="margin-left: 0.5rem;">4.9/5 from 500+ reviews</span>
-                    </div>
-                    <div class="social-links" style="margin-top:1.25rem;">
-                        <a href="https://wa.me/918610776477" target="_blank" rel="noopener" class="social-link" title="WhatsApp">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                        <a href="https://www.instagram.com/shalomdental" target="_blank" rel="noopener" class="social-link" title="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://www.facebook.com/shalomdental" target="_blank" rel="noopener" class="social-link" title="Facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.google.com/maps/place/Shalom+Dental+Care/@12.8941756,80.1101216,17z/data=!4m6!3m5!1s0x3a5259ea765cba5b:0xdbd0150a0b844831!8m2!3d12.8941756!4d80.1101216!16s%2Fg%2F11m9_88_sq?entry=ttu" target="_blank" rel="noopener" class="social-link" title="Google Review">
-                            <i class="fab fa-google"></i>
-                        </a>
                     </div>
                 </div>
                 <div class="footer-section">
@@ -2554,131 +1453,17 @@
                     <h3>Contact Info</h3>
                     <p><i class="fas fa-map-marker-alt"></i> 76/2, Gandhi Road, Srinivasa Nagar<br>New Perungalathur, Chennai 600063</p>
                     <p><i class="fas fa-phone"></i> +91 86107 76477</p>
-                    <p><i class="fas fa-envelope"></i> <a href="mailto:shalomdentalcare19@gmail.com" style="color:rgba(255,255,255,0.8);">shalomdentalcare19@gmail.com</a></p>
-                    <p><i class="fas fa-clock"></i> Mon–Sat: 9AM–2PM, 4–9PM | Sun: 4–9PM</p>
+                    <p><i class="fas fa-envelope"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ef9c878e8380828b8a819b8e838c8e9d8aded6af88828e8683c18c8082">[email&#160;protected]</a></p>
+                    <p><i class="fas fa-clock"></i> Mon-Sat: 9AM-8PM, Sun: 10AM-6PM</p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Shalom Dental Care. All rights reserved. Providing quality dental care in Chennai.</p>
+                <p>&copy; 2025 Shalom Dental Care. All rights reserved. Providing quality dental care in Chennai.</p>
             </div>
         </div>
     </footer>
 
-    <script>
-        // ── Team Carousel ──────────────────────────────────────────────────
-        (function () {
-            const track     = document.getElementById('teamTrack');
-            const viewport  = document.getElementById('teamCarousel');
-            const prevBtn   = document.getElementById('teamPrev');
-            const nextBtn   = document.getElementById('teamNext');
-            const dotsWrap  = document.getElementById('teamDots');
-
-            if (!track || !viewport) return;
-
-            const cards     = Array.from(track.querySelectorAll('.team-member'));
-            let currentIndex = 0;
-            let visibleCount = getVisible();
-            let totalSlides  = Math.ceil(cards.length / visibleCount);
-
-            // How many cards visible at once depends on viewport width
-            function getVisible() {
-                const w = window.innerWidth;
-                if (w <= 640)  return 1;
-                if (w <= 1024) return 2;
-                return 3;
-            }
-
-            // Build dot buttons
-            function buildDots() {
-                dotsWrap.innerHTML = '';
-                totalSlides = Math.ceil(cards.length / visibleCount);
-                for (let i = 0; i < totalSlides; i++) {
-                    const dot = document.createElement('button');
-                    dot.className = 'carousel-dot' + (i === currentIndex ? ' active' : '');
-                    dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-                    dot.addEventListener('click', () => goTo(i));
-                    dotsWrap.appendChild(dot);
-                }
-            }
-
-            // Move carousel to index i
-            function goTo(i) {
-                currentIndex = Math.max(0, Math.min(i, totalSlides - 1));
-
-                // Card width = (viewport width – gap * (visibleCount-1)) / visibleCount
-                const gap       = 20; // 1.25rem in px
-                const vpWidth   = viewport.offsetWidth;
-                const cardWidth = (vpWidth - gap * (visibleCount - 1)) / visibleCount;
-                const offset    = currentIndex * (cardWidth + gap) * visibleCount;
-
-                track.style.transform = `translateX(-${offset}px)`;
-
-                // Update dots
-                dotsWrap.querySelectorAll('.carousel-dot').forEach((d, idx) => {
-                    d.classList.toggle('active', idx === currentIndex);
-                });
-
-                // Update arrow disabled state
-                prevBtn.disabled = currentIndex === 0;
-                nextBtn.disabled = currentIndex >= totalSlides - 1;
-            }
-
-            // Set card widths inline so flex items respect the gap properly
-            function setCardWidths() {
-                visibleCount = getVisible();
-                const gap       = 20;
-                const vpWidth   = viewport.offsetWidth;
-                const cardWidth = (vpWidth - gap * (visibleCount - 1)) / visibleCount;
-                cards.forEach(c => {
-                    c.style.flex    = `0 0 ${cardWidth}px`;
-                    c.style.marginRight = gap + 'px';
-                });
-                buildDots();
-                goTo(Math.min(currentIndex, totalSlides - 1));
-            }
-
-            prevBtn.addEventListener('click', () => goTo(currentIndex - 1));
-            nextBtn.addEventListener('click', () => goTo(currentIndex + 1));
-
-            // Touch / swipe support
-            let touchStartX = 0;
-            viewport.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-            viewport.addEventListener('touchend', e => {
-                const dx = e.changedTouches[0].clientX - touchStartX;
-                if (Math.abs(dx) > 50) goTo(currentIndex + (dx < 0 ? 1 : -1));
-            });
-
-            // Keyboard arrow support (when focused inside section)
-            document.getElementById('team').addEventListener('keydown', e => {
-                if (e.key === 'ArrowLeft')  goTo(currentIndex - 1);
-                if (e.key === 'ArrowRight') goTo(currentIndex + 1);
-            });
-
-            // Auto-play every 5 s (pauses on hover)
-            let autoPlay = setInterval(() => {
-                goTo(currentIndex < totalSlides - 1 ? currentIndex + 1 : 0);
-            }, 5000);
-
-            const wrapper = document.querySelector('.team-carousel-wrapper');
-            wrapper.addEventListener('mouseenter', () => clearInterval(autoPlay));
-            wrapper.addEventListener('mouseleave', () => {
-                autoPlay = setInterval(() => {
-                    goTo(currentIndex < totalSlides - 1 ? currentIndex + 1 : 0);
-                }, 5000);
-            });
-
-            // Re-init on resize
-            let resizeTimer;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(setCardWidths, 120);
-            });
-
-            // Init
-            setCardWidths();
-        })();
-        // ── End Team Carousel ──────────────────────────────────────────────
-
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -2722,34 +1507,6 @@
                 header.style.boxShadow = '0 2px 20px rgba(30, 58, 95, 0.06)';
             }
         });
-
-        // Animated number counter for stats
-        function animateCounter(el) {
-            const target = parseInt(el.getAttribute('data-target'), 10);
-            const suffix = el.getAttribute('data-suffix') || '';
-            const duration = 1800;
-            const start = performance.now();
-            function step(now) {
-                const elapsed = now - start;
-                const progress = Math.min(elapsed / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-                el.textContent = Math.floor(eased * target).toLocaleString() + suffix;
-                if (progress < 1) requestAnimationFrame(step);
-            }
-            requestAnimationFrame(step);
-        }
-
-        // Observe stats section to trigger counter
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.querySelectorAll('.stat-number[data-target]').forEach(animateCounter);
-                    statsObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.3 });
-
-        document.querySelectorAll('.about-stats').forEach(el => statsObserver.observe(el));
 
         // Function to show appointment success modal with copyable ID
         function showAppointmentSuccessModal(appointmentId, patientName) {
@@ -2971,7 +1728,6 @@
                 email: formData.get('email'),
                 service: formData.get('service'),
                 date: formData.get('date'),
-                time: formData.get('time') || '',
                 message: formData.get('message') || ''
             };
 
@@ -3024,65 +1780,12 @@
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('date').min = today;
 
-        // Mobile menu toggle
-        const mobileMenuBtn = document.querySelector('#mobileMenuToggle');
+        // Mobile menu toggle (basic implementation)
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         const nav = document.querySelector('nav');
-        const mobileNavOverlay = document.getElementById('mobileNavOverlay');
-
-        // Inject a close (×) button inside the nav drawer pseudo-header
-        (function() {
-            const closeBtn = document.createElement('button');
-            closeBtn.className = 'nav-close-btn';
-            closeBtn.setAttribute('aria-label', 'Close menu');
-            closeBtn.innerHTML = '<i class="fas fa-times"></i>';
-            closeBtn.addEventListener('click', closeMobileMenu);
-            nav.insertBefore(closeBtn, nav.firstChild);
-        })();
-
-        function openMobileMenu() {
-            nav.classList.add('open');
-            mobileNavOverlay.classList.add('open');
-            mobileMenuBtn.setAttribute('aria-expanded', 'true');
-            mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
-            document.body.style.overflow = 'hidden';
-            // Focus first nav link for accessibility
-            const firstLink = nav.querySelector('a');
-            if (firstLink) setTimeout(() => firstLink.focus(), 320);
-        }
-
-        function closeMobileMenu() {
-            nav.classList.remove('open');
-            mobileNavOverlay.classList.remove('open');
-            mobileMenuBtn.setAttribute('aria-expanded', 'false');
-            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            document.body.style.overflow = '';
-        }
-
-        mobileMenuBtn.setAttribute('aria-expanded', 'false');
-        mobileMenuBtn.setAttribute('aria-controls', 'mainNav');
-        nav.id = nav.id || 'mainNav';
 
         mobileMenuBtn.addEventListener('click', function() {
-            if (nav.classList.contains('open')) {
-                closeMobileMenu();
-            } else {
-                openMobileMenu();
-            }
-        });
-
-        mobileNavOverlay.addEventListener('click', closeMobileMenu);
-
-        // Close mobile menu on Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && nav.classList.contains('open')) {
-                closeMobileMenu();
-                mobileMenuBtn.focus();
-            }
-        });
-
-        // Close mobile menu when a nav link is clicked
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
+            nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
         });
 
         // Appointment Tracking System
@@ -3123,7 +1826,7 @@
                     hash = ((hash << 5) - hash) + char;
                     hash = hash & hash;
                 }
-                return hash.toString(36) + 'ShalomDentalCare';
+                return hash.toString(36) + 'ShalomDental2025';
             }
 
             // Simple encryption function
@@ -3219,6 +1922,12 @@
 
             // Update appointment status
             updateAppointmentStatus(id, status, notes = '') {
+                if (!this.isSessionValid()) {
+                    this.showNotification('Session expired. Please login again.', 'error');
+                    this.logoutAdmin();
+                    return;
+                }
+
                 const appointment = this.appointments.find(a => a.id === id);
                 if (appointment) {
                     const oldStatus = appointment.status;
@@ -3292,14 +2001,14 @@
                 // This would integrate with your email service (EmailJS, SendGrid, etc.)
                 const emailData = {
                     to: appointment.email,
-                    // adminCopy: 'karunyadhanasekaran6@gmail.com', // ⛔ Admin notification — DISABLED
+                    adminCopy: 'karunyadhanasekaran6@gmail.com', // Admin notification
                     subject: type === 'new' ? 'Appointment Confirmation - Shalom Dental Care' : 'Appointment Update - Shalom Dental Care',
                     template: this.getEmailTemplate(appointment, type)
                 };
 
                 // Simulate email sending
                 console.log('Email would be sent to:', emailData.to);
-                // console.log('Admin copy would be sent to:', emailData.adminCopy); // ⛔ DISABLED
+                console.log('Admin copy would be sent to:', emailData.adminCopy);
                 console.log('Email content:', emailData);
                 
                 // For production, integrate with actual email service:
@@ -3782,15 +2491,15 @@
                             <span style="background: var(--accent-green); color: white; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
                                 <i class="fas fa-cloud"></i> <span id="supabase-status">Supabase Cloud</span>
                             </span>
-                            <button onclick="window.location.href='dental_admin_enhanced3.html'" style="background: var(--secondary-teal); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                            <button onclick="appointmentTracker.changeAdminPassword()" style="background: var(--secondary-teal); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
                                 <i class="fas fa-key"></i> Change Password
                             </button>
                             <button onclick="appointmentTracker.syncLocalToSupabase()" style="background: var(--primary-blue); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
                                 <i class="fas fa-sync"></i> Sync Local Data
                             </button>
                             <button onclick="appointmentTracker.exportAppointments()" class="export-btn">Export CSV</button>
-                            <button onclick="appointmentTracker.closeAdminPanel()" style="background: #ef4444; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
-                                <i class="fas fa-sign-out-alt"></i> Close
+                            <button onclick="appointmentTracker.logoutAdmin()" style="background: #ef4444; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                                <i class="fas fa-sign-out-alt"></i> Logout
                             </button>
                             <button onclick="appointmentTracker.closeAdminPanel()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
                         </div>
@@ -3887,9 +2596,100 @@
                 appointmentSection.appendChild(lookupSection);
             }
 
-            // Open admin panel — redirects to the dedicated admin portal
+            // Open admin panel
             openAdminPanel() {
-                window.location.href = 'dental_admin_enhanced3.html';
+                this.authenticateAdmin();
+            }
+
+            // Authenticate admin access
+            authenticateAdmin() {
+                const password = prompt('Enter admin password:');
+                if (!password) return;
+
+                // Hash the password for comparison
+                const hashedPassword = this.hashPassword(password);
+                const storedHash = localStorage.getItem('adminPasswordHash') || this.hashPassword('admin123'); // Default password
+
+                if (hashedPassword === storedHash) {
+                    // Set session timestamp
+                    this.adminSessionStart = Date.now();
+                    this.sessionTimeout = 30 * 60 * 1000; // 30 minutes
+                    
+                    document.getElementById('adminPanel').classList.add('open');
+                    this.refreshAdminPanel();
+                    this.showNotification('Admin access granted', 'success');
+                    this.startSessionTimer();
+                } else {
+                    this.showNotification('Invalid password. Access denied.', 'error');
+                }
+            }
+
+            // Start session timer
+            startSessionTimer() {
+                if (this.sessionTimer) clearTimeout(this.sessionTimer);
+                
+                this.sessionTimer = setTimeout(() => {
+                    this.logoutAdmin();
+                    this.showNotification('Session expired. Please login again.', 'error');
+                }, this.sessionTimeout);
+            }
+
+            // Check if session is valid
+            isSessionValid() {
+                if (!this.adminSessionStart) return false;
+                const elapsed = Date.now() - this.adminSessionStart;
+                return elapsed < this.sessionTimeout;
+            }
+
+            // Logout admin
+            logoutAdmin() {
+                this.adminSessionStart = null;
+                if (this.sessionTimer) clearTimeout(this.sessionTimer);
+                this.closeAdminPanel();
+                this.showNotification('Logged out successfully', 'info');
+            }
+
+            // Simple hash function for password
+            hashPassword(password) {
+                let hash = 0;
+                const salt = 'ShalomDentalSecure2025';
+                const combined = password + salt;
+                for (let i = 0; i < combined.length; i++) {
+                    const char = combined.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash; // Convert to 32-bit integer
+                }
+                return hash.toString(36);
+            }
+
+            // Change admin password
+            changeAdminPassword() {
+                const currentPassword = prompt('Enter current admin password:');
+                if (!currentPassword) return;
+
+                const currentHash = this.hashPassword(currentPassword);
+                const storedHash = localStorage.getItem('adminPasswordHash') || this.hashPassword('********');
+
+                if (currentHash !== storedHash) {
+                    this.showNotification('Current password is incorrect', 'error');
+                    return;
+                }
+
+                const newPassword = prompt('Enter new admin password (minimum 6 characters):');
+                if (!newPassword || newPassword.length < 6) {
+                    this.showNotification('Password must be at least 6 characters long', 'error');
+                    return;
+                }
+
+                const confirmPassword = prompt('Confirm new password:');
+                if (newPassword !== confirmPassword) {
+                    this.showNotification('Passwords do not match', 'error');
+                    return;
+                }
+
+                const newHash = this.hashPassword(newPassword);
+                localStorage.setItem('adminPasswordHash', newHash);
+                this.showNotification('Admin password changed successfully', 'success');
             }
 
             // Show notification
@@ -3931,6 +2731,12 @@
 
             // Refresh admin panel data
             refreshAdminPanel() {
+                // Check session validity before refreshing
+                if (!this.isSessionValid() && document.getElementById('adminPanel').classList.contains('open')) {
+                    this.logoutAdmin();
+                    return;
+                }
+
                 const pendingCount = this.getAppointmentsByStatus('pending').length;
                 const confirmedCount = this.getAppointmentsByStatus('confirmed').length;
                 const today = new Date().toISOString().split('T')[0];
@@ -4031,6 +2837,12 @@
 
             // Reschedule appointment
             rescheduleAppointment(id) {
+                if (!this.isSessionValid()) {
+                    this.showNotification('Session expired. Please login again.', 'error');
+                    this.logoutAdmin();
+                    return;
+                }
+
                 const newDate = prompt('Enter new date (YYYY-MM-DD):');
                 if (newDate) {
                     const appointment = this.appointments.find(a => a.id === id);
@@ -4456,146 +3268,9 @@
         }
     </script>
     
-    <!-- Supabase config - inlined to avoid CDN caching issues -->
-    <script>
-        // ── Supabase Configuration ──────────────────────────────────────────
-        const supabaseConfig = {
-            url: 'https://tsjgdptgyvqkmgvagsid.supabase.co',
-            anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzamdkcHRneXZxa21ndmFnc2lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwNDQ5OTgsImV4cCI6MjA4MTYyMDk5OH0.p6vHkCaAMZcIXBykPJE0gTnwPrThC0jrtx4fnicmxKE'
-        };
-
-        let supabaseClient = null;
-
-        function initSupabase() {
-            if (supabaseClient) return supabaseClient;
-            if (typeof supabase === 'undefined') {
-                console.error('❌ Supabase library not loaded.');
-                return null;
-            }
-            try {
-                supabaseClient = supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey);
-                console.log('✅ Supabase client initialized');
-                return supabaseClient;
-            } catch (e) {
-                console.error('❌ Failed to create Supabase client:', e);
-                return null;
-            }
-        }
-
-        const db = initSupabase();
-
-        // ── SupabaseAppointmentTracker ───────────────────────────────────────
-        class SupabaseAppointmentTracker extends AppointmentTracker {
-            constructor() {
-                super();
-                this.supabase = db;
-                this.useDatabase = !!this.supabase;
-                this.tableName = 'appointments';
-                if (this.useDatabase) {
-                    console.log('☁️ SupabaseAppointmentTracker initialized with cloud database');
-                    this.loadFromSupabase();
-                } else {
-                    console.log('📦 SupabaseAppointmentTracker running in local-only mode');
-                }
-            }
-
-            async loadFromSupabase() {
-                if (!this.supabase) return;
-                try {
-                    const { data, error } = await this.supabase
-                        .from(this.tableName).select('*').order('created_at', { ascending: false });
-                    if (error) { console.error('❌ Error loading from Supabase:', error); return; }
-                    if (data && data.length > 0) {
-                        this.appointments = data.map(apt => ({
-                            id: apt.id, appointmentId: apt.appointment_id,
-                            name: apt.name, phone: apt.phone, email: apt.email,
-                            service: apt.service, date: apt.appointment_date,
-                            message: apt.message || '', status: apt.status || 'pending',
-                            notes: apt.notes || '', createdAt: apt.created_at, updatedAt: apt.updated_at
-                        }));
-                        this.nextId = Math.max(...this.appointments.map(a => a.id), 0) + 1;
-                        console.log(`✅ Loaded ${data.length} appointments from Supabase`);
-                        this.saveEncryptedAppointments();
-                        this.refreshAdminPanel();
-                    }
-                } catch (e) { console.error('❌ Exception loading from Supabase:', e); }
-            }
-
-            async addAppointment(appointmentData) {
-                const appointmentId = this.generateAppointmentId();
-                const appointment = {
-                    id: this.nextId++, appointmentId,
-                    ...appointmentData, status: 'pending',
-                    createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
-                };
-                this.appointments.push(appointment);
-                this.saveEncryptedAppointments();
-                if (this.supabase) {
-                    try {
-                        const { data, error } = await this.supabase.from(this.tableName).insert({
-                            appointment_id: appointmentId, name: appointmentData.name,
-                            phone: appointmentData.phone, email: appointmentData.email,
-                            service: appointmentData.service, appointment_date: appointmentData.date,
-                            message: appointmentData.message || '', status: 'pending'
-                        }).select().single();
-                        if (error) {
-                            console.error('❌ Error saving to Supabase:', error);
-                            this.showNotification('Saved locally (cloud sync failed)', 'warning');
-                        } else {
-                            console.log('✅ Appointment saved to Supabase:', data);
-                            appointment.id = data.id;
-                            this.saveEncryptedAppointments();
-                        }
-                    } catch (e) { console.error('❌ Exception saving to Supabase:', e); }
-                }
-                this.notifyAdmin(appointment);
-                return appointment;
-            }
-
-            syncLocalToSupabase() {
-                this.showNotification('Sync not available on this page', 'warning');
-            }
-        }
-
-        // ── SupabaseFeedbackManager ──────────────────────────────────────────
-        class SupabaseFeedbackManager {
-            constructor() {
-                this.supabase = db;
-                this.tableName = 'feedback_entries';
-                this.isConnected = !!this.supabase;
-            }
-
-            async loadHomepageTestimonials() {
-                if (!this.supabase) {
-                    console.warn('⚠️ Supabase not connected, cannot load testimonials');
-                    return [];
-                }
-                try {
-                    const { data, error } = await this.supabase
-                        .from(this.tableName)
-                        .select('*')
-                        .eq('show_on_homepage', true)
-                        .gte('rating', 4)
-                        .order('rating', { ascending: false })
-                        .order('created_at', { ascending: false })
-                        .limit(6);
-                    if (error) { console.error('❌ Error loading testimonials:', error); return []; }
-                    return (data || [])
-                        .filter(fb => fb.comments && fb.comments.trim() !== '')
-                        .map(fb => ({
-                            patientName: fb.patient_name, service: fb.service,
-                            rating: fb.rating, comments: fb.comments, createdAt: fb.created_at
-                        }));
-                } catch (e) { console.error('❌ Exception loading testimonials:', e); return []; }
-            }
-        }
-
-        // Expose globals
-        window.supabaseClient = db;
-        window.SupabaseAppointmentTracker = SupabaseAppointmentTracker;
-        window.SupabaseFeedbackManager = SupabaseFeedbackManager;
-        console.log('📦 Supabase config loaded (inline) | Connected:', !!db);
-    </script>
+    <!-- Load Supabase config AFTER AppointmentTracker class is defined -->
+    <!--<script src="https://raw.githubusercontent.com/karunyadhana6/Shalom_dental_care/main/supabase-config.js"></script> --> 
+    <script src="https://cdn.jsdelivr.net/gh/karunyadhana6/Shalom_dental_care/supabase-config.js"></script>
 
     <script>
         // Initialize appointment tracker with Supabase
@@ -4606,14 +3281,20 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, initializing appointment system...');
             
+            // Add loading indicator to form button
             const submitButton = document.getElementById('appointment-submit-btn');
+            if (submitButton) {
+                submitButton.disabled = true;
+            }
             
-            // Wait for scripts to be ready (short delay - supabase is now inline)
+            // Wait a moment for all scripts to load
             setTimeout(() => {
                 try {
                     if (typeof SupabaseAppointmentTracker !== 'undefined') {
                         console.log('✅ SupabaseAppointmentTracker available - initializing with Supabase...');
                         appointmentTracker = new SupabaseAppointmentTracker();
+                        console.log('appointmentTracker instance:', appointmentTracker);
+                        console.log('appointmentTracker.useDatabase:', appointmentTracker.useDatabase);
                     } else {
                         console.log('⚠️ SupabaseAppointmentTracker not available, using local AppointmentTracker...');
                         appointmentTracker = new AppointmentTracker();
@@ -4622,49 +3303,46 @@
                     window.appointmentTracker = appointmentTracker;
                     systemReady = true;
                     
+                    // Update button to ready state
                     if (submitButton) {
                         if (appointmentTracker.useDatabase) {
                             submitButton.innerHTML = '<i class="fas fa-cloud"></i> Schedule Appointment';
+                            submitButton.style.background = '#10b981'; // Green for cloud
                         } else {
                             submitButton.innerHTML = '<i class="fas fa-calendar-check"></i> Schedule Appointment';
+                            submitButton.style.background = '#f59e0b'; // Orange for local
                         }
                         submitButton.disabled = false;
                     }
                     
                     console.log('🎯 Appointment system ready!');
+                    console.log('Database mode:', appointmentTracker.useDatabase ? 'Supabase Cloud' : 'Local Storage');
                     
                 } catch (error) {
                     console.error('❌ Error initializing appointment system:', error);
+                    
+                    // Fallback initialization
                     appointmentTracker = new AppointmentTracker();
                     window.appointmentTracker = appointmentTracker;
                     systemReady = true;
+                    
                     if (submitButton) {
-                        submitButton.innerHTML = '<i class="fas fa-calendar-check"></i> Schedule Appointment';
+                        submitButton.innerHTML = '<i class="fas fa-calendar-check"></i> Schedule Appointment (Fallback)';
                         submitButton.disabled = false;
+                        submitButton.style.background = '#ef4444'; // Red for error fallback
                     }
+                    
+                    console.log('🔄 Appointment system ready in fallback mode');
                 }
                 
                 // Load testimonials from admin feedback
                 loadTestimonialsFromFeedback();
                 
-            }, 500);
+            }, 1500); // Wait 1.5 seconds for all scripts to load
         });
         
         // ==================== TESTIMONIALS FROM ADMIN FEEDBACK ====================
         
-        // ── Review Tab Switcher ───────────────────────────────────────────
-        document.querySelectorAll('.review-tab-btn').forEach(btn => {
-            btn.addEventListener('click', function () {
-                // Toggle active button
-                document.querySelectorAll('.review-tab-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                // Toggle active panel
-                const tab = this.dataset.tab;
-                document.querySelectorAll('.review-tab-panel').forEach(p => p.classList.remove('active'));
-                document.getElementById('panel' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
-            });
-        });
-
         // Default testimonials to show if no feedback available
         const defaultTestimonials = [
             {
@@ -4719,16 +3397,13 @@
             try {
                 if (typeof SupabaseFeedbackManager !== 'undefined') {
                     const feedbackMgr = new SupabaseFeedbackManager();
-                    console.log('☁️ SupabaseFeedbackManager created | isConnected:', feedbackMgr.isConnected);
                     if (feedbackMgr.isConnected) {
                         console.log('☁️ Attempting to load testimonials from Supabase...');
                         testimonials = await feedbackMgr.loadHomepageTestimonials();
-                        console.log(`✅ Supabase returned ${testimonials.length} testimonials:`, testimonials);
-                    } else {
-                        console.warn('⚠️ SupabaseFeedbackManager not connected (db is null)');
+                        if (testimonials.length > 0) {
+                            console.log(`✅ Loaded ${testimonials.length} testimonials from Supabase`);
+                        }
                     }
-                } else {
-                    console.warn('⚠️ SupabaseFeedbackManager class not defined');
                 }
             } catch (e) {
                 console.warn('⚠️ Supabase testimonials load failed, falling back:', e);
@@ -4818,234 +3493,4 @@
         }
         
         // Helper: Generate star rating HTML
-        function generateStars(rating) {
-            let stars = '';
-            for (let i = 1; i <= 5; i++) {
-                stars += `<i class="fas fa-star" style="color: ${i <= rating ? '#fbbf24' : '#d1d5db'};"></i>`;
-            }
-            return stars;
-        }
-
-        // ══════════════════════════════════════════════════════════════
-        //  Appointment Availability Calendar  (public-facing)
-        // ══════════════════════════════════════════════════════════════
-        (function () {
-            const MONTH_NAMES = ['January','February','March','April','May','June',
-                                 'July','August','September','October','November','December'];
-
-            // Clinic time slots — morning (9-2) + evening (4-9)
-            const MORNING_SLOTS = ['09:00','10:00','11:00','12:00','13:00'];
-            const EVENING_SLOTS = ['16:00','17:00','18:00','19:00','20:00'];
-            const ALL_SLOTS     = [...MORNING_SLOTS, ...EVENING_SLOTS];
-
-            // Sunday: evening only (4-9)
-            const SUNDAY_SLOTS  = [...EVENING_SLOTS];
-
-            function formatSlot(time24) {
-                const [h, m] = time24.split(':').map(Number);
-                const suffix = h < 12 ? 'AM' : 'PM';
-                const h12    = h % 12 || 12;
-                return `${h12}:${m.toString().padStart(2,'0')} ${suffix}`;
-            }
-
-            // Deterministic pseudo-availability based on date + slot seed
-            // (In production replace this with a real Supabase query)
-            function getSlotStatus(dateStr, time) {
-                const seed = [...(dateStr + time)].reduce((s, c) => s + c.charCodeAt(0), 0);
-                const r = (seed * 1103515245 + 12345) & 0x7fffffff;
-                const pct = r % 100;
-                if (pct < 55) return 'open';
-                if (pct < 80) return 'limited';
-                return 'full';
-            }
-
-            // Calendar state
-            let current = new Date();
-            current.setDate(1);
-            let selectedDate = null;
-            let selectedSlot = null;
-
-            const today      = new Date();
-            today.setHours(0,0,0,0);
-
-            const prevBtn      = document.getElementById('availPrev');
-            const nextBtn      = document.getElementById('availNext');
-            const monthLabel   = document.getElementById('availMonthLabel');
-            const daysGrid     = document.getElementById('availDaysGrid');
-            const slotsGrid    = document.getElementById('availSlotsGrid');
-            const dateLabel    = document.getElementById('availSelectedDateLabel');
-            const bookBtn      = document.getElementById('availBookBtn');
-
-            if (!daysGrid) return; // section not present
-
-            // Disable navigating to past months
-            function updateNavBtns() {
-                const nowFirst = new Date(today.getFullYear(), today.getMonth(), 1);
-                prevBtn.disabled = current <= nowFirst;
-            }
-
-            function renderCalendar() {
-                const year  = current.getFullYear();
-                const month = current.getMonth();
-                monthLabel.textContent = `${MONTH_NAMES[month]} ${year}`;
-                updateNavBtns();
-
-                const firstDow   = new Date(year, month, 1).getDay();
-                const daysInMonth= new Date(year, month+1, 0).getDate();
-                daysGrid.innerHTML = '';
-
-                // Empty cells before month start
-                for (let i = 0; i < firstDow; i++) {
-                    const blank = document.createElement('div');
-                    blank.className = 'avail-day empty';
-                    daysGrid.appendChild(blank);
-                }
-
-                for (let d = 1; d <= daysInMonth; d++) {
-                    const dateObj  = new Date(year, month, d);
-                    const dateStr  = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-                    const dow      = dateObj.getDay(); // 0=Sun
-                    const isPast   = dateObj < today;
-                    const isToday  = dateStr === today.toISOString().split('T')[0];
-                    const isSelected = selectedDate === dateStr;
-
-                    const dayEl = document.createElement('button');
-                    dayEl.className = 'avail-day';
-                    dayEl.textContent = d;
-                    dayEl.setAttribute('aria-label', `${dateStr}`);
-
-                    if (isToday)    dayEl.classList.add('today-marker');
-                    if (isSelected) dayEl.classList.add('selected');
-
-                    if (isPast) {
-                        dayEl.classList.add('past');
-                        dayEl.disabled = true;
-                    } else {
-                        // Determine availability colour
-                        const slots   = dow === 0 ? SUNDAY_SLOTS : ALL_SLOTS;
-                        const statuses = slots.map(s => getSlotStatus(dateStr, s));
-                        const hasOpen  = statuses.some(s => s === 'open');
-                        const hasLimited = statuses.some(s => s === 'limited');
-                        const allFull  = statuses.every(s => s === 'full');
-
-                        if (allFull)        dayEl.classList.add('avail-closed');
-                        else if (hasOpen)   dayEl.classList.add('avail-open');
-                        else if (hasLimited)dayEl.classList.add('avail-limited');
-
-                        dayEl.addEventListener('click', () => selectDate(dateStr, dow));
-                    }
-
-                    daysGrid.appendChild(dayEl);
-                }
-            }
-
-            function selectDate(dateStr, dow) {
-                selectedDate = dateStr;
-                selectedSlot = null;
-                renderCalendar();
-                renderSlots(dateStr, dow);
-            }
-
-            function renderSlots(dateStr, dow) {
-                const d       = new Date(dateStr);
-                const label   = d.toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-                dateLabel.textContent = label;
-
-                const slots   = dow === 0 ? SUNDAY_SLOTS : ALL_SLOTS;
-                slotsGrid.innerHTML = '';
-
-                // Session separator labels
-                if (dow !== 0) {
-                    const morningHdr = document.createElement('div');
-                    morningHdr.style.cssText = 'grid-column:1/-1;font-size:.75rem;font-weight:700;color:var(--medium-gray);text-transform:uppercase;letter-spacing:.8px;padding:.25rem 0 .1rem;';
-                    morningHdr.textContent = '☀️  Morning  9 AM – 2 PM';
-                    slotsGrid.appendChild(morningHdr);
-
-                    MORNING_SLOTS.forEach(t => slotsGrid.appendChild(buildSlotBtn(t, dateStr)));
-
-                    const eveningHdr = document.createElement('div');
-                    eveningHdr.style.cssText = morningHdr.style.cssText;
-                    eveningHdr.textContent = '🌆  Evening  4 PM – 9 PM';
-                    slotsGrid.appendChild(eveningHdr);
-
-                    EVENING_SLOTS.forEach(t => slotsGrid.appendChild(buildSlotBtn(t, dateStr)));
-                } else {
-                    // Sunday — evening only
-                    const eveningHdr = document.createElement('div');
-                    eveningHdr.style.cssText = 'grid-column:1/-1;font-size:.75rem;font-weight:700;color:var(--medium-gray);text-transform:uppercase;letter-spacing:.8px;padding:.25rem 0 .1rem;';
-                    eveningHdr.textContent = '🌆  Evening  4 PM – 9 PM';
-                    slotsGrid.appendChild(eveningHdr);
-
-                    SUNDAY_SLOTS.forEach(t => slotsGrid.appendChild(buildSlotBtn(t, dateStr)));
-                }
-            }
-
-            function buildSlotBtn(time, dateStr) {
-                const status  = getSlotStatus(dateStr, time);
-                const btn     = document.createElement('button');
-                btn.className = `avail-slot-btn slot-${status}`;
-                btn.disabled  = status === 'full';
-                btn.dataset.time = time;
-
-                const statusText = { open: 'Available', limited: 'Few slots', full: 'Full' };
-                btn.innerHTML = `
-                    <span class="slot-time">${formatSlot(time)}</span>
-                    <span class="slot-status">${statusText[status]}</span>
-                `;
-
-                if (status !== 'full') {
-                    btn.addEventListener('click', () => selectSlot(time, dateStr, btn));
-                }
-                return btn;
-            }
-
-            function selectSlot(time, dateStr, btnEl) {
-                selectedSlot = time;
-                // Highlight selected
-                slotsGrid.querySelectorAll('.avail-slot-btn').forEach(b => b.classList.remove('slot-selected'));
-                btnEl.classList.add('slot-selected');
-
-                // Pre-fill the appointment form
-                const dateInput = document.getElementById('date');
-                const timeInput = document.getElementById('time');
-                if (dateInput) dateInput.value = dateStr;
-                if (timeInput) {
-                    const matchingOption = [...timeInput.options].find(o => o.value === time);
-                    if (matchingOption) timeInput.value = time;
-                }
-
-                // Update CTA label
-                bookBtn.innerHTML = `<i class="fas fa-calendar-check"></i> Book ${formatSlot(time)} on ${new Date(dateStr).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}`;
-                bookBtn.style.animation = 'none';
-                bookBtn.offsetHeight; // reflow
-                bookBtn.style.animation = 'slotPulse 0.4s ease';
-            }
-
-            prevBtn.addEventListener('click', () => {
-                current.setMonth(current.getMonth() - 1);
-                renderCalendar();
-            });
-
-            nextBtn.addEventListener('click', () => {
-                current.setMonth(current.getMonth() + 1);
-                renderCalendar();
-            });
-
-            // Pulse animation keyframe (injected once)
-            const styleTag = document.createElement('style');
-            styleTag.textContent = '@keyframes slotPulse { 0%{transform:scale(1)} 50%{transform:scale(1.04)} 100%{transform:scale(1)} }';
-            document.head.appendChild(styleTag);
-
-            // Init
-            renderCalendar();
-        })();
-        // ── End Availability Calendar ──────────────────────────────────
-    </script>
-
-    <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/918610776477?text=Hi%2C%20I%27d%20like%20to%20book%20an%20appointment%20at%20Shalom%20Dental%20Care."
-       class="whatsapp-float" target="_blank" rel="noopener" title="Chat on WhatsApp" aria-label="Chat on WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-</body>
-</html>
+        function gen
